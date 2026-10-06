@@ -1,8 +1,14 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { useCart } from "./CartProvider";
 import { formatRM } from "@/lib/format";
 import { whatsappLink } from "@/lib/wa";
+
+const emptySubscribe = () => () => {};
+const getMounted = () => true;
+const getServerSnapshot = () => false;
 
 type CartDrawerProps = {
   open: boolean;
@@ -16,6 +22,11 @@ export default function CartDrawer({
   whatsappNumber,
 }: CartDrawerProps) {
   const { items, totalCents, remove, setQty, clear } = useCart();
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    getMounted,
+    getServerSnapshot,
+  );
 
   const message =
     "Hello Bymamito! I'd like to order:\n\n" +
@@ -27,7 +38,9 @@ export default function CartDrawer({
 
   const orderHref = whatsappLink(whatsappNumber, message);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <>
       {open && (
         <div
@@ -178,6 +191,7 @@ export default function CartDrawer({
           </div>
         )}
       </aside>
-    </>
+    </>,
+    document.body,
   );
 }
