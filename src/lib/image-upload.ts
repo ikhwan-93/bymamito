@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { put } from "@vercel/blob";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
@@ -32,6 +33,21 @@ function detectImageType(bytes: Buffer): { mime: string; ext: string } | null {
   return null;
 }
 
+function safeStem(originalName: string): string {
+  const base = path.basename(originalName || "image");
+  const safeName = base
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9._-]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+    .toLowerCase();
+  return (
+    (safeName.includes(".") ? safeName.slice(0, safeName.lastIndexOf(".")) : safeName) ||
+    "image"
+  );
+}
+
 export async function saveUploadedImage(
   file: File,
 ): Promise<{ imageUrl?: string; error?: string }> {
@@ -49,20 +65,21 @@ export async function saveUploadedImage(
     return { error: "Unsupported image type. Use JPEG, PNG, WebP, or GIF." };
   }
 
-  const originalName = file.name || "image";
-  const base = path.basename(originalName);
-  const safeName = base
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-zA-Z0-9._-]+/g, "-")
-    .replace(/-+/g, "-")
-    .replace(/^-|-$/g, "")
-    .toLowerCase();
+  const filename = `${Date.now()}-${safeStem(file.name)}${detected.ext}`;
 
-  const stem =
-    (safeName.includes(".") ? safeName.slice(0, safeName.lastIndexOf(".")) : safeName) ||
-    "image";
-  const filename = `${Date.now()}-${stem}${detected.ext}`;
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    try {
+      const blob = await put(`uploads/${filename}`, buffer, {
+        access: "public",
+        contentType: detected.mime,
+        token: process.env.BLOB_READ_WRITE_TOKEN,
+      });
+      return { imageUrl: blob.url };
+    } catch (err) {
+      console.error("Failed to upload image to Blob", err);
+      return { error: "Could not save image." };
+    }
+  }
 
   const uploadsDir = path.join(process.cwd(), "public", "uploads");
   try {
