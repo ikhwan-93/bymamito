@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/auth";
 
 type SettingsResult = { error?: string };
 
@@ -13,6 +14,8 @@ const SETTING_KEYS = [
 ] as const;
 
 export async function saveSettings(formData: FormData): Promise<SettingsResult> {
+  if (!(await getSession())) return { error: "Unauthorized." };
+
   const whatsappNumber = normalizeWhatsApp(
     String(formData.get("whatsapp_number") ?? ""),
   );

@@ -5,6 +5,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/auth";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
@@ -14,6 +15,41 @@ const ACCEPTED_MIME_TYPES = new Set([
   "image/webp",
   "image/gif",
 ]);
+
+const MAGIC_BYTES: { mime: string; ext: string; signatures: number[][] }[] = [
+  { mime: "image/jpeg", ext: ".jpg", signatures: [[0xff, 0xd8, 0xff]] },
+  {
+    mime: "image/png",
+    ext: ".png",
+    signatures: [[0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]],
+  },
+  {
+    mime: "image/webp",
+    ext: ".webp",
+    signatures: [
+      [0x52, 0x49, 0x46, 0x46],
+      [0x57, 0x45, 0x42, 0x50],
+    ],
+  },
+  { mime: "image/gif", ext: ".gif", signatures: [[0x47, 0x49, 0x46, 0x38]] },
+];
+
+function detectImageType(bytes: Uint8Array): { mime: string; ext: string } | null {
+  for (const entry of MAGIC_BYTES) {
+    for (const sig of entry.signatures) {
+      if (sig.length > bytes.length) continue;
+      let match = true;
+      for (let i = 0; i < sig.length; i++) {
+        if (bytes[i] !== sig[i]) {
+          match = false;
+          break;
+        }
+      }
+      if (match) return { mime: entry.mime, ext: entry.ext };
+    }
+  }
+  return null;
+}
 
 const productSchema = z.object({
   name: z.string().trim().min(1, "Name is required."),
@@ -69,6 +105,12 @@ async function saveImage(file: File): Promise<{ imageUrl?: string; error?: strin
     return { error: "Image must be 5 MB or smaller." };
   }
 
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const detected = detectImageType(buffer);
+  if (!detected || detected.mime !== file.type) {
+    return { error: "Unsupported image type. Use JPEG, PNG, WebP, or GIF." };
+  }
+
   const originalName = file.name || "image";
   const base = path.basename(originalName);
   const safeName = base
@@ -79,18 +121,26 @@ async function saveImage(file: File): Promise<{ imageUrl?: string; error?: strin
     .replace(/^-|-$/g, "")
     .toLowerCase();
 
-  const ext = path.extname(safeName).toLowerCase() || ".img";
-  const stem = safeName.slice(0, safeName.length - ext.length) || "image";
-  const filename = `${Date.now()}-${stem}${ext}`;
+  const stem =
+    (safeName.includes(".") ? safeName.slice(0, safeName.lastIndexOf(".")) : safeName) ||
+    "image";
+  const filename = `${Date.now()}-${stem}${detected.ext}`;
 
   const uploadsDir = path.join(process.cwd(), "public", "uploads");
-  await mkdir(uploadsDir, { recursive: true });
-  await writeFile(path.join(uploadsDir, filename), Buffer.from(await file.arrayBuffer()));
+  try {
+    await mkdir(uploadsDir, { recursive: true });
+    await writeFile(path.join(uploadsDir, filename), buffer);
+  } catch (err) {
+    console.error("Failed to save image", err);
+    return { error: "Could not save image." };
+  }
 
   return { imageUrl: `/uploads/${filename}` };
 }
 
 export async function createProduct(formData: FormData): Promise<ProductResult> {
+  if (!(await getSession())) return { error: "Unauthorized." };
+
   const { data, error } = parseProduct(formData);
   if (error || !data) return { error };
 
@@ -126,6 +176,8 @@ export async function createProduct(formData: FormData): Promise<ProductResult> 
 }
 
 export async function updateProduct(formData: FormData): Promise<ProductResult> {
+  if (!(await getSession())) return { error: "Unauthorized." };
+
   const id = Number(formData.get("id"));
   if (!Number.isInteger(id)) return { error: "Invalid product." };
 
@@ -168,13 +220,29 @@ export async function updateProduct(formData: FormData): Promise<ProductResult> 
 }
 
 export async function deleteProduct(formData: FormData): Promise<ProductResult> {
+  if (!(await getSession())) return { error: "Unauthorized." };
+
   const id = Number(formData.get("id"));
   if (!Number.isInteger(id)) return { error: "Invalid product." };
 
-  await prisma.product.delete({ where: { id } });
+  try {
+    await prisma.product.delete({ where: { id } });
+  } catch (err) {
+    if (isNotFoundError(err)) return { error: "Product not found." };
+    throw err;
+  }
 
   revalidatePath("/menu");
   revalidatePath("/");
   revalidatePath("/admin/products");
   return {};
+}
+
+function isNotFoundError(err: unknown): boolean {
+  return (
+    typeof err === "object" &&
+    err !== null &&
+    "code" in err &&
+    (err as { code?: string }).code === "P2025"
+  );
 }

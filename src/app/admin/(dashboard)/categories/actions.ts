@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/auth";
 
 const categorySchema = z.object({
   name: z.string().trim().min(1, "Name is required."),
@@ -40,6 +41,8 @@ function parseCategory(formData: FormData): {
 }
 
 export async function createCategory(formData: FormData): Promise<CategoryResult> {
+  if (!(await getSession())) return { error: "Unauthorized." };
+
   const { data, error } = parseCategory(formData);
   if (error || !data) return { error };
 
@@ -64,6 +67,8 @@ export async function createCategory(formData: FormData): Promise<CategoryResult
 }
 
 export async function updateCategory(formData: FormData): Promise<CategoryResult> {
+  if (!(await getSession())) return { error: "Unauthorized." };
+
   const id = Number(formData.get("id"));
   if (!Number.isInteger(id)) return { error: "Invalid category." };
 
@@ -92,10 +97,17 @@ export async function updateCategory(formData: FormData): Promise<CategoryResult
 }
 
 export async function deleteCategory(formData: FormData): Promise<CategoryResult> {
+  if (!(await getSession())) return { error: "Unauthorized." };
+
   const id = Number(formData.get("id"));
   if (!Number.isInteger(id)) return { error: "Invalid category." };
 
-  await prisma.category.delete({ where: { id } });
+  try {
+    await prisma.category.delete({ where: { id } });
+  } catch (err) {
+    if (isNotFoundError(err)) return { error: "Category not found." };
+    throw err;
+  }
 
   revalidatePath("/menu");
   revalidatePath("/admin/categories");
@@ -108,5 +120,14 @@ function isUniqueConstraintError(err: unknown): boolean {
     err !== null &&
     "code" in err &&
     (err as { code?: string }).code === "P2002"
+  );
+}
+
+function isNotFoundError(err: unknown): boolean {
+  return (
+    typeof err === "object" &&
+    err !== null &&
+    "code" in err &&
+    (err as { code?: string }).code === "P2025"
   );
 }

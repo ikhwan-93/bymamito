@@ -4,7 +4,12 @@ import { cookies } from "next/headers";
 const COOKIE_NAME = "admin_session";
 const SESSION_DURATION_SECONDS = 60 * 60 * 24;
 
-const secret = new TextEncoder().encode(process.env.SESSION_SECRET);
+const sessionSecret = process.env.SESSION_SECRET;
+if (!sessionSecret || sessionSecret.length < 32) {
+  throw new Error("SESSION_SECRET must be set and at least 32 characters long");
+}
+
+const secret = new TextEncoder().encode(sessionSecret);
 
 export async function createSession(): Promise<string> {
   return new SignJWT({ role: "admin" })
@@ -15,6 +20,8 @@ export async function createSession(): Promise<string> {
 }
 
 export async function getSession(): Promise<boolean> {
+  if (!process.env.SESSION_SECRET) return false;
+
   const cookieStore = await cookies();
   const token = cookieStore.get(COOKIE_NAME)?.value;
 
@@ -37,6 +44,13 @@ export async function destroySession(): Promise<void> {
     path: "/",
     maxAge: 0,
   });
+}
+
+export async function requireAdmin(): Promise<void> {
+  const authed = await getSession();
+  if (!authed) {
+    throw new Error("Unauthorized.");
+  }
 }
 
 export async function verifyAdminPassword(pw: string): Promise<boolean> {
