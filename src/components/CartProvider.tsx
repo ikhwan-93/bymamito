@@ -3,10 +3,7 @@
 import {
   createContext,
   useContext,
-  useEffect,
   useMemo,
-  useRef,
-  useState,
   useSyncExternalStore,
   type ReactNode,
 } from "react";
@@ -30,12 +27,11 @@ type CartContextValue = {
 const CartContext = createContext<CartContextValue | null>(null);
 
 const STORAGE_KEY = "bymamito-cart";
+const EMPTY: CartItem[] = [];
 
-function loadInitialItems(): CartItem[] {
-  if (typeof window === "undefined") return [];
+function parseItems(raw: string | null): CartItem[] {
+  if (!raw) return [];
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [];
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
     return parsed.filter(
@@ -52,43 +48,58 @@ function loadInitialItems(): CartItem[] {
   }
 }
 
-export function CartProvider({ children }: { children: ReactNode }) {
-  const initialItems = useSyncExternalStore(
-    () => () => {},
-    () => loadInitialItems(),
-    () => [],
-  );
-  const [items, setItems] = useState<CartItem[]>(initialItems);
-  const hydratedRef = useRef(false);
+let cachedItems: CartItem[] | null = null;
+const listeners = new Set<() => void>();
 
-  useEffect(() => {
-    hydratedRef.current = true;
-  }, []);
+function getItems(): CartItem[] {
+  if (cachedItems === null) {
+    cachedItems =
+      typeof window === "undefined"
+        ? EMPTY
+        : parseItems(window.localStorage.getItem(STORAGE_KEY));
+  }
+  return cachedItems;
+}
 
-  useEffect(() => {
-    if (!hydratedRef.current) return;
-    try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-    } catch {
-      // ignore write failures (private mode, quota, etc.)
+function commitItems(next: CartItem[]) {
+  cachedItems = next;
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+  } catch {
+    // ignore write failures (private mode, quota, etc.)
+  }
+  listeners.forEach((listener) => listener());
+}
+
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  if (typeof window !== "undefined") {
+    window.addEventListener("storage", listener);
+  }
+  return () => {
+    listeners.delete(listener);
+    if (typeof window !== "undefined") {
+      window.removeEventListener("storage", listener);
     }
-  }, [items]);
+  };
+}
+
+export function CartProvider({ children }: { children: ReactNode }) {
+  const items = useSyncExternalStore(subscribe, getItems, () => EMPTY);
 
   const value = useMemo<CartContextValue>(() => {
     const add: CartContextValue["add"] = (item) => {
-      setItems((prev) => {
-        const existing = prev.find((i) => i.id === item.id);
-        if (existing) {
-          return prev.map((i) =>
-            i.id === item.id ? { ...i, qty: i.qty + 1 } : i,
-          );
-        }
-        return [...prev, { ...item, qty: 1 }];
-      });
+      const prev = getItems();
+      const existing = prev.find((i) => i.id === item.id);
+      commitItems(
+        existing
+          ? prev.map((i) => (i.id === item.id ? { ...i, qty: i.qty + 1 } : i))
+          : [...prev, { ...item, qty: 1 }],
+      );
     };
 
     const remove: CartContextValue["remove"] = (id) => {
-      setItems((prev) => prev.filter((i) => i.id !== id));
+      commitItems(getItems().filter((i) => i.id !== id));
     };
 
     const setQty: CartContextValue["setQty"] = (id, qty) => {
@@ -96,13 +107,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
         remove(id);
         return;
       }
-      setItems((prev) =>
-        prev.map((i) => (i.id === id ? { ...i, qty } : i)),
-      );
+      commitItems(getItems().map((i) => (i.id === id ? { ...i, qty } : i)));
     };
 
     const clear: CartContextValue["clear"] = () => {
-      setItems([]);
+      commitItems([]);
     };
 
     const totalCents = items.reduce((sum, i) => sum + i.qty * i.priceCents, 0);
