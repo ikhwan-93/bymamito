@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String
+  slug      String    @unique
+  sortOrder Int       @default(0)
+  products  Product[]
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String   @default("")
+  priceCents  Int
+  imageUrl    String   @default("")
+  available   Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+}
+
+model Post {
+  id          Int      @id @default(autoincrement())
+  title       String
+  body        String
+  imageUrl    String   @default("")
+  published   Boolean  @default(false)
+  publishedAt DateTime @default(now())
+}
+
+model Setting {
+  key   String @id
+  value String
+}
