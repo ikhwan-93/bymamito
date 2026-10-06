@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Mix brownies and congo bars combo">
+<defs>
+  <pattern id="dots" width="46" height="46" patternUnits="userSpaceOnUse">
+    <circle cx="8" cy="8" r="2.2" fill="#E9DDCC"/>
+  </pattern>
+</defs>
+<rect width="800" height="600" fill="#F6E7C8"/>
+<rect width="800" height="600" fill="url(#dots)"/>
+<ellipse cx="400" cy="452" rx="235" ry="26" fill="#E9DDCC" opacity="0.75"/>
+<ellipse cx="400" cy="440" rx="230" ry="42" fill="#FFFFFF"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="#FBF7F2"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="none" stroke="#E9DDCC" stroke-width="3"/>
+
+<rect x="252" y="356" width="150" height="70" rx="8" fill="#5C4028"/>
+<rect x="252" y="332" width="150" height="42" rx="9" fill="#4A3221"/>
+<rect x="290" y="338" width="6" height="6" rx="2" fill="#FFFFFF"/><path d="M420 322 q 10 26 0 52 L470 324 q 12 26 0 52" fill="none" stroke="#241505" stroke-width="5" stroke-linecap="round"/>
+<rect x="398" y="356" width="150" height="70" rx="8" fill="#A9713C"/>
+<rect x="398" y="332" width="150" height="42" rx="9" fill="#C4874B"/>
+<g fill="#4A3221"><circle cx="300" cy="348" r="5"/><circle cx="360" cy="352" r="5"/><circle cx="420" cy="348" r="5"/><circle cx="480" cy="352" r="5"/></g>
+</svg>

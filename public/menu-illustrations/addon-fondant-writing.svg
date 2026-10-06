@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Fondant writing">
+<defs>
+  <pattern id="dots" width="46" height="46" patternUnits="userSpaceOnUse">
+    <circle cx="8" cy="8" r="2.2" fill="#E9DDCC"/>
+  </pattern>
+</defs>
+<rect width="800" height="600" fill="#F6E7C8"/>
+<rect width="800" height="600" fill="url(#dots)"/>
+<ellipse cx="400" cy="452" rx="235" ry="26" fill="#E9DDCC" opacity="0.75"/>
+<ellipse cx="400" cy="440" rx="230" ry="42" fill="#FFFFFF"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="#FBF7F2"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="none" stroke="#E9DDCC" stroke-width="3"/>
+
+<g>
+  <rect x="296" y="368" width="208" height="56" rx="10" fill="#FBF7F2" stroke="#E9DDCC" stroke-width="3"/>
+  <path d="M330 402 q 12 -22 24 0 t 24 0 t 24 0 t 24 0 t 24 0" stroke="#C4874B" stroke-width="7" fill="none" stroke-linecap="round"/>
+</g>
+</svg>

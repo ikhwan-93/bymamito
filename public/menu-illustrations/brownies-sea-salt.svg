@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Chewy fudge brownies, sea salt">
+<defs>
+  <pattern id="dots" width="46" height="46" patternUnits="userSpaceOnUse">
+    <circle cx="8" cy="8" r="2.2" fill="#E9DDCC"/>
+  </pattern>
+</defs>
+<rect width="800" height="600" fill="#F6E7C8"/>
+<rect width="800" height="600" fill="url(#dots)"/>
+<ellipse cx="400" cy="452" rx="235" ry="26" fill="#E9DDCC" opacity="0.75"/>
+<ellipse cx="400" cy="440" rx="230" ry="42" fill="#FFFFFF"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="#FBF7F2"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="none" stroke="#E9DDCC" stroke-width="3"/>
+
+<rect x="228" y="342" width="344" height="86" rx="10" fill="#5C4028"/>
+<rect x="228" y="306" width="344" height="58" rx="8" fill="#4A3221"/>
+<rect x="228" y="284" width="344" height="44" rx="14" fill="#4A3221"/>
+<ellipse cx="330" cy="298" rx="52" ry="9" fill="#FFFFFF" opacity="0.22"/>
+<g fill="#FFFFFF" opacity="0.9">
+      <rect x="300" y="292" width="7" height="7" rx="2" transform="rotate(18 303 295)"/>
+      <rect x="402" y="300" width="6" height="6" rx="2" transform="rotate(-12 405 303)"/>
+      <rect x="492" y="288" width="7" height="7" rx="2" transform="rotate(24 495 291)"/>
+    </g>
+<circle cx="214" cy="430" r="5" fill="#5C4028" opacity="0.85"/>
+<circle cx="596" cy="438" r="4" fill="#5C4028" opacity="0.85"/>
+<circle cx="560" cy="446" r="3" fill="#4A3221" opacity="0.85"/>
+</svg>

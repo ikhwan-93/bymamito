@@ -6,7 +6,10 @@ type SeedProduct = {
   name: string;
   description: string;
   priceCents: number;
+  imageUrl?: string;
 };
+
+const IMG = "/menu-illustrations/";
 
 type SeedCategory = {
   name: string;
@@ -14,23 +17,23 @@ type SeedCategory = {
   products: SeedProduct[];
 };
 
-const kekBatikFlavours: [string, number, number, number][] = [
-  ["Plain", 2300, 4400, 7900],
-  ["Ovomaltine", 2700, 5200, 9200],
-  ["Mix (plain & ovomaltine)", 2500, 4800, 8600],
+const kekBatikFlavours: [string, number, number, number, string][] = [
+  ["Plain", 2300, 4400, 7900, "kek-batik-plain.svg"],
+  ["Ovomaltine", 2700, 5200, 9200, "kek-batik-ovomaltine.svg"],
+  ["Mix (plain & ovomaltine)", 2500, 4800, 8600, "kek-batik-mix.svg"],
 ];
 
-const brownieFlavours: [string, number, number, number][] = [
-  ["Plain", 3000, 5800, 11000],
-  ["Sea salt", 3000, 5900, 11200],
-  ["Hazelnut", 3100, 6100, 11800],
-  ["Double choc", 3600, 7000, 13400],
-  ["Dark couverture choc", 3500, 6800, 13000],
-  ["Salted caramel", 3300, 6500, 12000],
-  ["Biscoff", 3500, 6800, 13000],
-  ["Ovomaltine", 3600, 7100, 13500],
-  ["Signature (salted caramel & hazelnut)", 3400, 6600, 12600],
-  ["Mix (sea salt & double choc)", 3000, 5900, 11200],
+const brownieFlavours: [string, number, number, number, string][] = [
+  ["Plain", 3000, 5800, 11000, "brownies-plain.svg"],
+  ["Sea salt", 3000, 5900, 11200, "brownies-sea-salt.svg"],
+  ["Hazelnut", 3100, 6100, 11800, "brownies-hazelnut.svg"],
+  ["Double choc", 3600, 7000, 13400, "brownies-double-choc.svg"],
+  ["Dark couverture choc", 3500, 6800, 13000, "brownies-dark-couverture.svg"],
+  ["Salted caramel", 3300, 6500, 12000, "brownies-salted-caramel.svg"],
+  ["Biscoff", 3500, 6800, 13000, "brownies-biscoff.svg"],
+  ["Ovomaltine", 3600, 7100, 13500, "brownies-ovomaltine.svg"],
+  ["Signature (salted caramel & hazelnut)", 3400, 6600, 12600, "brownies-signature.svg"],
+  ["Mix (sea salt & double choc)", 3000, 5900, 11200, "brownies-mix.svg"],
 ];
 
 function sizeVariants(
@@ -38,11 +41,13 @@ function sizeVariants(
   productLabel: string,
   sizes: string[],
   prices: [number, number, number],
+  image: string,
 ): SeedProduct[] {
   return sizes.map((size, i) => ({
     name: `${productLabel} — ${flavourLabel} (${size})`,
     description: `${productLabel}, ${flavourLabel.toLowerCase()}. Size: ${size}.`,
     priceCents: prices[i],
+    imageUrl: IMG + image,
   }));
 }
 
@@ -53,24 +58,24 @@ const menu: SeedCategory[] = [
   {
     name: "Kek Batik",
     slug: "kek-batik",
-    products: kekBatikFlavours.flatMap(([flavour, half, mid, whole]) =>
-      sizeVariants(flavour, "Crunchy Kek Batik", kekBatikSizes, [half, mid, whole]),
+    products: kekBatikFlavours.flatMap(([flavour, half, mid, whole, img]) =>
+      sizeVariants(flavour, "Crunchy Kek Batik", kekBatikSizes, [half, mid, whole], img),
     ),
   },
   {
     name: "Brownies",
     slug: "brownies",
-    products: brownieFlavours.flatMap(([flavour, half, mid, whole]) =>
-      sizeVariants(flavour, "Chewy Fudge Brownies", brownieSizes, [half, mid, whole]),
+    products: brownieFlavours.flatMap(([flavour, half, mid, whole, img]) =>
+      sizeVariants(flavour, "Chewy Fudge Brownies", brownieSizes, [half, mid, whole], img),
     ),
   },
   {
     name: "Congo Bars",
     slug: "congo-bars",
     products: [
-      { name: "Congo Bars (Half)", description: "Congo bars, half size (8-inch).", priceCents: 3400 },
-      { name: "Congo Bars (8\")", description: "Congo bars, 8-inch.", priceCents: 6600 },
-      { name: "Congo Bars (10\")", description: "Congo bars, 10-inch.", priceCents: 11000 },
+      { name: "Congo Bars (Half)", description: "Congo bars, half size (8-inch).", priceCents: 3400, imageUrl: IMG + "congo-bars.svg" },
+      { name: "Congo Bars (8\")", description: "Congo bars, 8-inch.", priceCents: 6600, imageUrl: IMG + "congo-bars.svg" },
+      { name: "Congo Bars (10\")", description: "Congo bars, 10-inch.", priceCents: 11000, imageUrl: IMG + "congo-bars.svg" },
     ],
   },
   {
@@ -81,36 +86,43 @@ const menu: SeedCategory[] = [
         name: "Combo: Plain Kek Batik + Plain Brownies",
         description: "Half of half 6.5\" plain kek batik + half 7\" plain brownies.",
         priceCents: 5100,
+        imageUrl: IMG + "combo-plain-kek-plain-brownies.svg",
       },
       {
         name: "Combo: Mix Kek Batik + Mix Brownies",
         description: "Half of half 6.5\" mix kek batik + half 7\" mix brownies.",
         priceCents: 5700,
+        imageUrl: IMG + "combo-mix-kek-mix-brownies.svg",
       },
       {
         name: "Combo: Plain Kek Batik + Congo Bars",
         description: "Half of 6.5\" plain kek batik + half of 8\" congo bars.",
         priceCents: 5900,
+        imageUrl: IMG + "combo-plain-kek-congo.svg",
       },
       {
         name: "Combo: Ovomaltine Kek Batik + Congo Bars",
         description: "Half of 6.5\" ovomaltine kek batik + half of 8\" congo bars.",
         priceCents: 5900,
+        imageUrl: IMG + "combo-ovomaltine-kek-congo.svg",
       },
       {
         name: "Combo: Mix Kek Batik + Congo Bars",
         description: "Half of 6.5\" mix kek batik + half of 8\" congo bars.",
         priceCents: 5700,
+        imageUrl: IMG + "combo-mix-kek-congo.svg",
       },
       {
         name: "Combo: Plain Brownies + Congo Bars",
         description: "Half of 7\" plain brownies + half of 8\" congo bars.",
         priceCents: 6200,
+        imageUrl: IMG + "combo-plain-brownies-congo.svg",
       },
       {
         name: "Combo: Mix Brownies + Congo Bars",
         description: "Half of 7\" mix brownies + half of 8\" congo bars.",
         priceCents: 6600,
+        imageUrl: IMG + "combo-mix-brownies-congo.svg",
       },
     ],
   },
@@ -122,11 +134,13 @@ const menu: SeedCategory[] = [
         name: "Caramel Pudding Cake (7\")",
         description: "Caramel pudding cake, 7-inch.",
         priceCents: 6000,
+        imageUrl: IMG + "pudding-cake-whole.svg",
       },
       {
         name: "Caramel Pudding Cake (Quarter slice)",
         description: "Caramel pudding cake, quarter slice.",
         priceCents: 1600,
+        imageUrl: IMG + "pudding-cake-slice.svg",
       },
     ],
   },
@@ -138,36 +152,43 @@ const menu: SeedCategory[] = [
         name: "Strawberries topping",
         description: "Fresh strawberries add-on, RM10–RM20 depending on size.",
         priceCents: 1000,
+        imageUrl: IMG + "addon-strawberries.svg",
       },
       {
         name: "Assorted choc topping",
         description: "Assorted chocolate add-on, RM10–RM15 depending on size.",
         priceCents: 1000,
+        imageUrl: IMG + "addon-assorted-choc.svg",
       },
       {
         name: "Upgrade to tower & ribbon",
         description: "Upgrade your brownies to a tower with ribbon, RM5–RM7.",
         priceCents: 500,
+        imageUrl: IMG + "addon-tower-ribbon.svg",
       },
       {
         name: "Acrylic topper",
         description: "Acrylic cake topper.",
         priceCents: 300,
+        imageUrl: IMG + "addon-acrylic-topper.svg",
       },
       {
         name: "Wish card (long paragraph)",
         description: "Printed wish card with a long paragraph.",
         priceCents: 100,
+        imageUrl: IMG + "addon-wish-card.svg",
       },
       {
         name: "Fondant writing (max 6 words)",
         description: "Fondant writing, up to 6 words.",
         priceCents: 100,
+        imageUrl: IMG + "addon-fondant-writing.svg",
       },
       {
         name: "Small notes (max 15 words)",
         description: "Small handwritten notes, up to 15 words. FREE.",
         priceCents: 0,
+        imageUrl: IMG + "addon-small-notes.svg",
       },
     ],
   },

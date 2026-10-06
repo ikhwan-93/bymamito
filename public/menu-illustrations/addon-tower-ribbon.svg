@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Brownie tower with ribbon">
+<defs>
+  <pattern id="dots" width="46" height="46" patternUnits="userSpaceOnUse">
+    <circle cx="8" cy="8" r="2.2" fill="#E9DDCC"/>
+  </pattern>
+</defs>
+<rect width="800" height="600" fill="#F6E7C8"/>
+<rect width="800" height="600" fill="url(#dots)"/>
+<ellipse cx="400" cy="452" rx="235" ry="26" fill="#E9DDCC" opacity="0.75"/>
+<ellipse cx="400" cy="440" rx="230" ry="42" fill="#FFFFFF"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="#FBF7F2"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="none" stroke="#E9DDCC" stroke-width="3"/>
+
+<g>
+  <rect x="320" y="380" width="160" height="52" rx="8" fill="#4A3221"/>
+  <rect x="340" y="336" width="120" height="46" rx="8" fill="#5C4028"/>
+  <rect x="358" y="298" width="84" height="40" rx="8" fill="#4A3221"/>
+  <rect x="320" y="396" width="160" height="16" fill="#C0392B" opacity="0.9"/>
+  <path d="M400 396 l -26 -18 q -12 12 4 20 q 12 4 22 -2z M400 396 l 26 -18 q 12 12 -4 20 q -12 4 -22 -2z" fill="#C0392B"/>
+  <circle cx="400" cy="396" r="6" fill="#A83226"/>
+</g>
+</svg>

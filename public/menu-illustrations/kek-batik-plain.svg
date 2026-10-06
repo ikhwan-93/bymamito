@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Crunchy kek batik, plain">
+<defs>
+  <pattern id="dots" width="46" height="46" patternUnits="userSpaceOnUse">
+    <circle cx="8" cy="8" r="2.2" fill="#E9DDCC"/>
+  </pattern>
+</defs>
+<rect width="800" height="600" fill="#F6E7C8"/>
+<rect width="800" height="600" fill="url(#dots)"/>
+<ellipse cx="400" cy="452" rx="235" ry="26" fill="#E9DDCC" opacity="0.75"/>
+<ellipse cx="400" cy="440" rx="230" ry="42" fill="#FFFFFF"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="#FBF7F2"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="none" stroke="#E9DDCC" stroke-width="3"/>
+
+<rect x="240" y="300" width="320" height="132" rx="10" fill="#3A2718"/>
+<g stroke="#59402B" stroke-width="7" fill="none" opacity="0.9">
+  <path d="M282 424 q 10 -60 -6 -116"/>
+  <path d="M352 428 q -8 -64 8 -122"/>
+  <path d="M424 426 q 12 -58 -4 -118"/>
+  <path d="M494 424 q -10 -62 6 -116"/>
+</g>
+<rect x="240" y="286" width="320" height="34" rx="12" fill="#C4874B"/>
+<path d="M260 300 q 40 -14 80 0 t 80 0 t 80 0" stroke="#FBF7F2" stroke-width="6" fill="none" opacity="0.55"/>
+<circle cx="228" cy="438" r="5" fill="#3A2718" opacity="0.85"/>
+<circle cx="574" cy="442" r="4" fill="#59402B" opacity="0.85"/>
+</svg>

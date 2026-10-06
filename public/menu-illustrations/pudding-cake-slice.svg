@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Caramel pudding cake slice">
+<defs>
+  <pattern id="dots" width="46" height="46" patternUnits="userSpaceOnUse">
+    <circle cx="8" cy="8" r="2.2" fill="#E9DDCC"/>
+  </pattern>
+</defs>
+<rect width="800" height="600" fill="#F6E7C8"/>
+<rect width="800" height="600" fill="url(#dots)"/>
+<ellipse cx="400" cy="452" rx="235" ry="26" fill="#E9DDCC" opacity="0.75"/>
+<ellipse cx="400" cy="440" rx="230" ry="42" fill="#FFFFFF"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="#FBF7F2"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="none" stroke="#E9DDCC" stroke-width="3"/>
+
+<path d="M310 428 L400 292 L490 428 Z" fill="#E8C879"/>
+<path d="M400 292 L490 428 L466 428 Q 470 340 400 292 Z" fill="#D9B25F"/>
+<path d="M310 428 L400 292 L428 336 L352 428 Z" fill="#C4874B" opacity="0.85"/>
+<ellipse cx="400" cy="292" rx="26" ry="10" fill="#A9713C"/>
+</svg>

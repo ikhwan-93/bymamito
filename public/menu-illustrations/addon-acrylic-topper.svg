@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Acrylic cake topper">
+<defs>
+  <pattern id="dots" width="46" height="46" patternUnits="userSpaceOnUse">
+    <circle cx="8" cy="8" r="2.2" fill="#E9DDCC"/>
+  </pattern>
+</defs>
+<rect width="800" height="600" fill="#F6E7C8"/>
+<rect width="800" height="600" fill="url(#dots)"/>
+<ellipse cx="400" cy="452" rx="235" ry="26" fill="#E9DDCC" opacity="0.75"/>
+<ellipse cx="400" cy="440" rx="230" ry="42" fill="#FFFFFF"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="#FBF7F2"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="none" stroke="#E9DDCC" stroke-width="3"/>
+
+<g>
+  <rect x="394" y="300" width="12" height="120" rx="6" fill="#4A3221"/>
+  <circle cx="400" cy="258" r="58" fill="#2E2016" opacity="0.92"/>
+  <circle cx="400" cy="258" r="46" fill="none" stroke="#F6E7C8" stroke-width="3" opacity="0.6"/>
+  <path d="M400 282 q -30 -20 -18 -40 q 10 -14 18 -2 q 8 -12 18 2 q 12 20 -18 40z" fill="#F6E7C8"/>
+</g>
+</svg>

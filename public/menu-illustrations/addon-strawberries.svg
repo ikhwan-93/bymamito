@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Strawberries topping">
+<defs>
+  <pattern id="dots" width="46" height="46" patternUnits="userSpaceOnUse">
+    <circle cx="8" cy="8" r="2.2" fill="#E9DDCC"/>
+  </pattern>
+</defs>
+<rect width="800" height="600" fill="#F6E7C8"/>
+<rect width="800" height="600" fill="url(#dots)"/>
+<ellipse cx="400" cy="452" rx="235" ry="26" fill="#E9DDCC" opacity="0.75"/>
+<ellipse cx="400" cy="440" rx="230" ry="42" fill="#FFFFFF"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="#FBF7F2"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="none" stroke="#E9DDCC" stroke-width="3"/>
+
+<g>
+  <path d="M340 360 q -34 -8 -30 -42 q 30 -6 30 42z" fill="#C0392B"/>
+  <path d="M400 340 q 0 -52 44 -58 q 12 44 -44 58z" fill="#C0392B"/>
+  <path d="M452 372 q 40 -2 38 -38 q -34 0 -38 38z" fill="#C0392B"/>
+  <g fill="#F6E7C8"><circle cx="392" cy="322" r="2"/><circle cx="410" cy="314" r="2"/><circle cx="404" cy="332" r="2"/><circle cx="352" cy="340" r="2"/><circle cx="444" cy="352" r="2"/></g>
+  <path d="M388 282 q 14 -14 30 -6 q -6 16 -30 6z" fill="#7A8B4C"/>
+  <path d="M330 314 q 12 -12 26 -6 q -6 14 -26 6z" fill="#7A8B4C"/>
+  <path d="M458 328 q 12 -10 24 -4 q -6 12 -24 4z" fill="#7A8B4C"/>
+</g>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Chewy fudge brownies, salted caramel">
+<defs>
+  <pattern id="dots" width="46" height="46" patternUnits="userSpaceOnUse">
+    <circle cx="8" cy="8" r="2.2" fill="#E9DDCC"/>
+  </pattern>
+</defs>
+<rect width="800" height="600" fill="#F6E7C8"/>
+<rect width="800" height="600" fill="url(#dots)"/>
+<ellipse cx="400" cy="452" rx="235" ry="26" fill="#E9DDCC" opacity="0.75"/>
+<ellipse cx="400" cy="440" rx="230" ry="42" fill="#FFFFFF"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="#FBF7F2"/>
+<ellipse cx="400" cy="432" rx="230" ry="42" fill="none" stroke="#E9DDCC" stroke-width="3"/>
+
+<rect x="228" y="342" width="344" height="86" rx="10" fill="#5C4028"/>
+<rect x="228" y="306" width="344" height="58" rx="8" fill="#4A3221"/>
+<rect x="228" y="284" width="344" height="44" rx="14" fill="#4A3221"/>
+<ellipse cx="330" cy="298" rx="52" ry="9" fill="#FFFFFF" opacity="0.22"/>
+<path d="M310 266 q 18 26 0 52 L420 260 q -16 26 0 52 L510 268 q 20 26 0 52" fill="none" stroke="#C4874B" stroke-width="8" stroke-linecap="round"/>
+<circle cx="214" cy="430" r="5" fill="#5C4028" opacity="0.85"/>
+<circle cx="596" cy="438" r="4" fill="#5C4028" opacity="0.85"/>
+<circle cx="560" cy="446" r="3" fill="#4A3221" opacity="0.85"/>
+</svg>
