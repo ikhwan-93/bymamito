@@ -43,3 +43,6 @@ prisma/dev.db
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# source menu screenshots (raw material, not site assets)
+menu-images/
