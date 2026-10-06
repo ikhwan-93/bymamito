@@ -5,7 +5,9 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
 
@@ -51,22 +53,26 @@ function loadInitialItems(): CartItem[] {
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
-  const [hydrated, setHydrated] = useState(false);
+  const initialItems = useSyncExternalStore(
+    () => () => {},
+    () => loadInitialItems(),
+    () => [],
+  );
+  const [items, setItems] = useState<CartItem[]>(initialItems);
+  const hydratedRef = useRef(false);
 
   useEffect(() => {
-    setItems(loadInitialItems());
-    setHydrated(true);
+    hydratedRef.current = true;
   }, []);
 
   useEffect(() => {
-    if (!hydrated) return;
+    if (!hydratedRef.current) return;
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
     } catch {
       // ignore write failures (private mode, quota, etc.)
     }
-  }, [items, hydrated]);
+  }, [items]);
 
   const value = useMemo<CartContextValue>(() => {
     const add: CartContextValue["add"] = (item) => {
