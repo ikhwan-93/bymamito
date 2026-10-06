@@ -229,6 +229,7 @@ async function main() {
           name: product.name,
           description: product.description,
           priceCents: product.priceCents,
+          imageUrl: product.imageUrl ?? "",
           available: true,
           sortOrder,
           categoryId: created.id,
