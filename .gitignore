@@ -63,3 +63,6 @@ menu-images/
 !.vscode/extensions.json
 *.swp
 Thumbs.db
+
+.vercel
+.env*
