@@ -13,12 +13,18 @@ export type CartItem = {
   name: string;
   priceCents: number;
   qty: number;
+  imageUrl: string;
 };
 
 type CartContextValue = {
   items: CartItem[];
   totalCents: number;
-  add: (item: { id: number; name: string; priceCents: number }) => void;
+  add: (item: {
+    id: number;
+    name: string;
+    priceCents: number;
+    imageUrl: string;
+  }) => void;
   remove: (id: number) => void;
   setQty: (id: number, qty: number) => void;
   clear: () => void;
@@ -41,7 +47,8 @@ function parseItems(raw: string | null): CartItem[] {
         typeof item.name === "string" &&
         typeof item.priceCents === "number" &&
         typeof item.qty === "number" &&
-        item.qty > 0,
+        item.qty > 0 &&
+        typeof item.imageUrl === "string",
     );
   } catch {
     return [];

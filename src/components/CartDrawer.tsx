@@ -78,6 +78,23 @@ export default function CartDrawer({
             <ul className="divide-y divide-cream-line">
               {items.map((item) => (
                 <li key={item.id} className="flex items-center gap-4 py-4">
+                  <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-cream-line bg-rose">
+                    {item.imageUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={item.imageUrl}
+                        alt={item.name}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center">
+                        <span className="font-display text-xl font-semibold text-cocoa/40">
+                          {item.name.trim().charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-medium text-cocoa">
                       {item.name}

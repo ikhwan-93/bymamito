@@ -58,6 +58,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               id={id}
               name={name}
               priceCents={priceCents}
+              imageUrl={imageUrl}
             />
           )}
         </div>
