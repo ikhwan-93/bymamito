@@ -41,13 +41,19 @@ export default function CartDrawer({
         role="dialog"
         aria-modal="true"
         aria-label="Shopping cart"
-        className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col bg-paper shadow-xl transition-transform duration-300 ${
+        className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-2xl flex-col bg-paper shadow-xl transition-transform duration-300 ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between border-b border-cream-line px-6 py-4">
+        <div className="flex items-center justify-between border-b border-cream-line px-6 py-3">
           <h2 className="font-display text-xl font-semibold text-cocoa">
             Your order
+            {items.length > 0 && (
+              <span className="ml-2 text-sm font-normal text-cocoa/50">
+                {items.reduce((n, i) => n + i.qty, 0)} item
+                {items.reduce((n, i) => n + i.qty, 0) === 1 ? "" : "s"}
+              </span>
+            )}
           </h2>
           <button
             type="button"
@@ -69,7 +75,7 @@ export default function CartDrawer({
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-6 py-4">
+        <div className="flex-1 overflow-y-auto px-6 py-3">
           {items.length === 0 ? (
             <p className="py-12 text-center text-sm text-cocoa/60">
               Your cart is empty.
@@ -77,8 +83,8 @@ export default function CartDrawer({
           ) : (
             <ul className="divide-y divide-cream-line">
               {items.map((item) => (
-                <li key={item.id} className="flex items-center gap-4 py-4">
-                  <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-cream-line bg-rose">
+                <li key={item.id} className="flex items-center gap-3 py-2.5">
+                  <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg border border-cream-line bg-rose">
                     {item.imageUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -88,7 +94,7 @@ export default function CartDrawer({
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center">
-                        <span className="font-display text-xl font-semibold text-cocoa/40">
+                        <span className="font-display text-lg font-semibold text-cocoa/40">
                           {item.name.trim().charAt(0).toUpperCase()}
                         </span>
                       </div>
@@ -96,20 +102,20 @@ export default function CartDrawer({
                   </div>
 
                   <div className="min-w-0 flex-1">
-                    <p className="truncate font-medium text-cocoa">
+                    <p className="truncate text-sm font-medium text-cocoa">
                       {item.name}
                     </p>
-                    <span className="price-tag mt-1">
+                    <span className="price-tag mt-0.5">
                       {formatRM(item.priceCents)}
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     <button
                       type="button"
                       onClick={() => setQty(item.id, item.qty - 1)}
                       aria-label={`Decrease quantity of ${item.name}`}
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-cream-line text-cocoa transition-colors hover:border-caramel hover:text-caramel"
+                      className="flex h-7 w-7 items-center justify-center rounded-full border border-cream-line text-cocoa transition-colors hover:border-caramel hover:text-caramel"
                     >
                       −
                     </button>
@@ -120,7 +126,7 @@ export default function CartDrawer({
                       type="button"
                       onClick={() => setQty(item.id, item.qty + 1)}
                       aria-label={`Increase quantity of ${item.name}`}
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-cream-line text-cocoa transition-colors hover:border-caramel hover:text-caramel"
+                      className="flex h-7 w-7 items-center justify-center rounded-full border border-cream-line text-cocoa transition-colors hover:border-caramel hover:text-caramel"
                     >
                       +
                     </button>
@@ -145,8 +151,8 @@ export default function CartDrawer({
         </div>
 
         {items.length > 0 && (
-          <div className="border-t border-cream-line px-6 py-4">
-            <div className="mb-4 flex items-center justify-between">
+          <div className="border-t border-cream-line px-6 py-3">
+            <div className="mb-3 flex items-center justify-between">
               <span className="text-sm font-medium text-cocoa/70">Total</span>
               <span className="font-display text-lg font-semibold text-cocoa">
                 {formatRM(totalCents)}
