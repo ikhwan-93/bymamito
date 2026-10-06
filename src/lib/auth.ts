@@ -46,13 +46,6 @@ export async function destroySession(): Promise<void> {
   });
 }
 
-export async function requireAdmin(): Promise<void> {
-  const authed = await getSession();
-  if (!authed) {
-    throw new Error("Unauthorized.");
-  }
-}
-
 export async function verifyAdminPassword(pw: string): Promise<boolean> {
   const expected = process.env.ADMIN_PASSWORD;
   if (!expected) return false;
