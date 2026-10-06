@@ -18,6 +18,7 @@ export default async function SettingsPage() {
         businessHours={settings.business_hours ?? ""}
         aboutText={settings.about_text ?? ""}
         instagramUrl={settings.instagram_url ?? ""}
+        heroImage={settings.hero_image ?? ""}
       />
     </div>
   );

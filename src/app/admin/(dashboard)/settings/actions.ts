@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
+import { saveUploadedImage } from "@/lib/image-upload";
 
 type SettingsResult = { error?: string };
 
@@ -11,6 +12,7 @@ const SETTING_KEYS = [
   "business_hours",
   "about_text",
   "instagram_url",
+  "hero_image",
 ] as const;
 
 export async function saveSettings(formData: FormData): Promise<SettingsResult> {
@@ -29,7 +31,17 @@ export async function saveSettings(formData: FormData): Promise<SettingsResult> 
     business_hours: String(formData.get("business_hours") ?? "").trim(),
     about_text: String(formData.get("about_text") ?? "").trim(),
     instagram_url: String(formData.get("instagram_url") ?? "").trim(),
+    hero_image: String(formData.get("hero_image") ?? "").trim(),
   };
+
+  const heroFile = formData.get("hero_image_file");
+  if (heroFile instanceof File && heroFile.size > 0) {
+    const result = await saveUploadedImage(heroFile);
+    if (result.error) return { error: result.error };
+    entries.hero_image = result.imageUrl!;
+  } else if (formData.get("remove_hero_image") === "on") {
+    entries.hero_image = "";
+  }
 
   try {
     for (const key of SETTING_KEYS) {

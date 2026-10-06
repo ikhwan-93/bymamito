@@ -28,11 +28,13 @@ export function SettingsForm({
   businessHours,
   aboutText,
   instagramUrl,
+  heroImage,
 }: {
   whatsappNumber: string;
   businessHours: string;
   aboutText: string;
   instagramUrl: string;
+  heroImage: string;
 }) {
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState(false);
@@ -52,6 +54,46 @@ export function SettingsForm({
       className="mt-8 max-w-2xl space-y-6 rounded-2xl border border-cream-line bg-white p-6"
     >
       <div className="grid grid-cols-1 gap-4">
+        <Field label="Homepage hero image">
+          <input type="hidden" name="hero_image" value={heroImage} />
+          <div className="flex items-start gap-4">
+            <div className="h-24 w-32 shrink-0 overflow-hidden rounded-xl border border-cream-line bg-rose/50">
+              {heroImage ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={heroImage}
+                  alt="Current hero"
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center">
+                  <span className="font-display text-2xl font-semibold text-cocoa/30">
+                    B
+                  </span>
+                </div>
+              )}
+            </div>
+            <div className="flex-1 space-y-2">
+              <input
+                name="hero_image_file"
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/gif"
+                className="block w-full text-sm text-cocoa/70 file:mr-3 file:rounded-lg file:border-0 file:bg-caramel file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-white hover:file:bg-caramel/90"
+              />
+              <p className="text-xs text-cocoa/50">
+                Shown on the homepage hero. JPG/PNG/WebP/GIF, up to 5 MB.
+                Leave empty to keep the current image.
+              </p>
+              {heroImage ? (
+                <label className="flex items-center gap-2 text-xs text-cocoa/60">
+                  <input type="checkbox" name="remove_hero_image" />
+                  Remove image (revert to the monogram)
+                </label>
+              ) : null}
+            </div>
+          </div>
+        </Field>
+
         <Field label="WhatsApp number (digits only)">
           <input
             name="whatsapp_number"

@@ -30,6 +30,7 @@ export default async function Home() {
 
   const aboutText = settings.about_text ?? "";
   const instagramUrl = settings.instagram_url ?? "";
+  const heroImage = settings.hero_image ?? "";
   const hasProducts = products.length > 0;
 
   return (
@@ -71,11 +72,20 @@ export default async function Home() {
 
           <div className="relative">
             <div className="overflow-hidden rounded-2xl border border-cream-line bg-rose/50">
-              <div className="flex aspect-[4/3] w-full items-center justify-center">
-                <span className="font-display text-[10rem] font-semibold leading-none text-cocoa/15">
-                  B
-                </span>
-              </div>
+              {heroImage ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={heroImage}
+                  alt="Fresh bakes by Bymamito"
+                  className="aspect-[4/3] w-full object-cover"
+                />
+              ) : (
+                <div className="flex aspect-[4/3] w-full items-center justify-center">
+                  <span className="font-display text-[10rem] font-semibold leading-none text-cocoa/15">
+                    B
+                  </span>
+                </div>
+              )}
             </div>
             <div className="absolute -bottom-4 left-6 rounded-2xl border border-cream-line bg-butter px-5 py-3 shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-wider text-caramel">

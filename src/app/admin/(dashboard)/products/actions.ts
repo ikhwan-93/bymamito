@@ -1,55 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
-
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
-
-const ACCEPTED_MIME_TYPES = new Set([
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "image/gif",
-]);
-
-const MAGIC_BYTES: { mime: string; ext: string; signatures: number[][] }[] = [
-  { mime: "image/jpeg", ext: ".jpg", signatures: [[0xff, 0xd8, 0xff]] },
-  {
-    mime: "image/png",
-    ext: ".png",
-    signatures: [[0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]],
-  },
-  {
-    mime: "image/webp",
-    ext: ".webp",
-    signatures: [
-      [0x52, 0x49, 0x46, 0x46],
-      [0x57, 0x45, 0x42, 0x50],
-    ],
-  },
-  { mime: "image/gif", ext: ".gif", signatures: [[0x47, 0x49, 0x46, 0x38]] },
-];
-
-function detectImageType(bytes: Uint8Array): { mime: string; ext: string } | null {
-  for (const entry of MAGIC_BYTES) {
-    for (const sig of entry.signatures) {
-      if (sig.length > bytes.length) continue;
-      let match = true;
-      for (let i = 0; i < sig.length; i++) {
-        if (bytes[i] !== sig[i]) {
-          match = false;
-          break;
-        }
-      }
-      if (match) return { mime: entry.mime, ext: entry.ext };
-    }
-  }
-  return null;
-}
+import { saveUploadedImage } from "@/lib/image-upload";
 
 const productSchema = z.object({
   name: z.string().trim().min(1, "Name is required."),
@@ -96,48 +51,6 @@ function toCents(price: string): number {
   return Math.round(parseFloat(price) * 100);
 }
 
-async function saveImage(file: File): Promise<{ imageUrl?: string; error?: string }> {
-  if (!ACCEPTED_MIME_TYPES.has(file.type)) {
-    return { error: "Unsupported image type. Use JPEG, PNG, WebP, or GIF." };
-  }
-
-  if (file.size > MAX_FILE_SIZE) {
-    return { error: "Image must be 5 MB or smaller." };
-  }
-
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const detected = detectImageType(buffer);
-  if (!detected || detected.mime !== file.type) {
-    return { error: "Unsupported image type. Use JPEG, PNG, WebP, or GIF." };
-  }
-
-  const originalName = file.name || "image";
-  const base = path.basename(originalName);
-  const safeName = base
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-zA-Z0-9._-]+/g, "-")
-    .replace(/-+/g, "-")
-    .replace(/^-|-$/g, "")
-    .toLowerCase();
-
-  const stem =
-    (safeName.includes(".") ? safeName.slice(0, safeName.lastIndexOf(".")) : safeName) ||
-    "image";
-  const filename = `${Date.now()}-${stem}${detected.ext}`;
-
-  const uploadsDir = path.join(process.cwd(), "public", "uploads");
-  try {
-    await mkdir(uploadsDir, { recursive: true });
-    await writeFile(path.join(uploadsDir, filename), buffer);
-  } catch (err) {
-    console.error("Failed to save image", err);
-    return { error: "Could not save image." };
-  }
-
-  return { imageUrl: `/uploads/${filename}` };
-}
-
 export async function createProduct(formData: FormData): Promise<ProductResult> {
   if (!(await getSession())) return { error: "Unauthorized." };
 
@@ -152,7 +65,7 @@ export async function createProduct(formData: FormData): Promise<ProductResult> 
   let imageUrl = "";
   const imageFile = formData.get("image");
   if (imageFile && imageFile instanceof File && imageFile.size > 0) {
-    const result = await saveImage(imageFile);
+    const result = await saveUploadedImage(imageFile);
     if (result.error) return { error: result.error };
     imageUrl = result.imageUrl!;
   }
@@ -195,7 +108,7 @@ export async function updateProduct(formData: FormData): Promise<ProductResult> 
   let imageUrl = existing.imageUrl;
   const imageFile = formData.get("image");
   if (imageFile && imageFile instanceof File && imageFile.size > 0) {
-    const result = await saveImage(imageFile);
+    const result = await saveUploadedImage(imageFile);
     if (result.error) return { error: result.error };
     imageUrl = result.imageUrl!;
   }
