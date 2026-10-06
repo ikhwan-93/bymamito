@@ -67,12 +67,12 @@ export async function saveUploadedImage(
 
   const filename = `${Date.now()}-${safeStem(file.name)}${detected.ext}`;
 
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
+  if (process.env.BLOB_STORE_ID) {
     try {
       const blob = await put(`uploads/${filename}`, buffer, {
         access: "public",
         contentType: detected.mime,
-        token: process.env.BLOB_READ_WRITE_TOKEN,
+        storeId: process.env.BLOB_STORE_ID,
       });
       return { imageUrl: blob.url };
     } catch (err) {

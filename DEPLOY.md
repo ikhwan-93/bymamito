@@ -1,8 +1,8 @@
 # Deploying to Vercel
 
-The site runs on Vercel with **Vercel Postgres** (database) and **Vercel Blob** (image uploads).
+The site runs on Vercel with **Prisma Postgres** (database) and **Vercel Blob** (image uploads).
 Local dev keeps working exactly as before — uploads silently fall back to `public/uploads/`
-when `BLOB_READ_WRITE_TOKEN` is not set.
+when `BLOB_STORE_ID` is not set.
 
 ## One-time setup
 
@@ -27,7 +27,9 @@ git push -u origin main
 ### 4. Create Blob storage (image uploads)
 
 1. **Storage → Create Database → Blob**.
-2. Connect it to the same project — this adds `BLOB_READ_WRITE_TOKEN` automatically.
+2. Connect it to the same project — this adds `BLOB_STORE_ID` (and `BLOB_WEBHOOK_PUBLIC_KEY`).
+   Uploads authenticate automatically via Vercel's OIDC token (`VERCEL_OIDC_TOKEN`,
+   injected at runtime) — no static token or extra env var is needed.
 
 ### 5. Add the remaining environment variables
 
@@ -66,7 +68,8 @@ Go to `https://<your-project>.vercel.app/admin` and log in with `ADMIN_PASSWORD`
 - **Database:** Prisma talks to Vercel Postgres over `DATABASE_URL`. All routes are
   dynamic (`force-dynamic`), so data is always fresh and builds never touch the DB.
 - **Images:** uploads go to Vercel Blob (served from `*.public.blob.vercel-storage.com`)
-  and the stored URL is absolute — product/hero images work everywhere.
+  and the stored URL is absolute — product/hero images work everywhere. The Blob client
+  authenticates via `BLOB_STORE_ID` + Vercel's injected `VERCEL_OIDC_TOKEN`.
 - **Bundled illustrations** (`/menu-illustrations/*.svg`) are static files deployed with the app.
 
 ## Notes
