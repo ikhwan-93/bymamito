@@ -1,0 +1,70 @@
+import { SignJWT, jwtVerify } from "jose";
+import { cookies } from "next/headers";
+
+const COOKIE_NAME = "admin_session";
+const SESSION_DURATION_SECONDS = 60 * 60 * 24;
+
+const secret = new TextEncoder().encode(process.env.SESSION_SECRET);
+
+export async function createSession(): Promise<string> {
+  return new SignJWT({ role: "admin" })
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime(`${SESSION_DURATION_SECONDS}s`)
+    .sign(secret);
+}
+
+export async function getSession(): Promise<boolean> {
+  const cookieStore = await cookies();
+  const token = cookieStore.get(COOKIE_NAME)?.value;
+
+  if (!token) return false;
+
+  try {
+    await jwtVerify(token, secret);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function destroySession(): Promise<void> {
+  const cookieStore = await cookies();
+  cookieStore.set(COOKIE_NAME, "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 0,
+  });
+}
+
+export async function verifyAdminPassword(pw: string): Promise<boolean> {
+  const expected = process.env.ADMIN_PASSWORD;
+  if (!expected) return false;
+  return timingSafeEqual(pw, expected);
+}
+
+function timingSafeEqual(a: string, b: string): boolean {
+  const bufA = new TextEncoder().encode(a);
+  const bufB = new TextEncoder().encode(b);
+
+  if (bufA.length !== bufB.length) return false;
+
+  let diff = 0;
+  for (let i = 0; i < bufA.length; i++) {
+    diff |= bufA[i] ^ bufB[i];
+  }
+  return diff === 0;
+}
+
+export async function setSessionCookie(token: string): Promise<void> {
+  const cookieStore = await cookies();
+  cookieStore.set(COOKIE_NAME, token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: SESSION_DURATION_SECONDS,
+  });
+}
