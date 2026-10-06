@@ -17,40 +17,42 @@ export default function ProductCard({ product }: ProductCardProps) {
   const initial = name.trim().charAt(0).toUpperCase();
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-cream-line bg-rose/40 transition-transform hover:-translate-y-0.5">
-      <div className="relative aspect-[4/3] w-full overflow-hidden">
+    <article className="group flex flex-col overflow-hidden rounded-2xl border border-cream-line bg-white shadow-[0_1px_2px_rgb(46_32_22/0.04)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_-18px_rgb(46_32_22/0.28)]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-rose">
         {imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={imageUrl}
             alt={name}
-            className="h-full w-full object-cover transition-transform group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-rose">
-            <span className="font-display text-5xl font-semibold text-cocoa/40">
+          <div className="flex h-full w-full items-center justify-center">
+            <span className="font-display text-5xl font-semibold italic text-cocoa/40">
               {initial}
             </span>
           </div>
         )}
 
         {!available && (
-          <span className="absolute left-3 top-3 rounded-full bg-cocoa/80 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-paper">
-            Unavailable
+          <span className="absolute left-3 top-3 rounded-full bg-cocoa/85 px-3 py-1 text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-paper">
+            Sold out today
           </span>
         )}
       </div>
 
-      <div className="flex flex-1 flex-col gap-2 p-4">
-        <h3 className="font-display text-xl font-semibold text-cocoa">
+      <div className="flex flex-1 flex-col gap-2 p-5">
+        <h3 className="font-display text-lg font-semibold leading-snug text-cocoa">
           {name}
         </h3>
 
         {description && (
-          <p className="line-clamp-2 text-sm text-cocoa/70">{description}</p>
+          <p className="line-clamp-2 text-sm leading-relaxed text-cocoa/60">
+            {description}
+          </p>
         )}
 
-        <div className="mt-auto flex items-center justify-between gap-3 pt-3">
+        <div className="mt-auto flex items-center justify-between gap-3 pt-4">
           <span className="price-tag">{formatRM(priceCents)}</span>
 
           {available && (

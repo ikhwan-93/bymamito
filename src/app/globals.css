@@ -22,6 +22,73 @@ body {
   font-family: var(--font-display), ui-serif, Georgia, serif;
 }
 
+/* ---- shared ornaments ---- */
+
+/* small-caps eyebrow flanked by hairlines: ——— LABEL ——— */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-caramel);
+}
+.eyebrow::before,
+.eyebrow::after {
+  content: "";
+  height: 1px;
+  width: 2.25rem;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+/* ornamental divider: ——— ❦ ——— */
+.divider-flourish {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.875rem;
+  color: var(--color-caramel);
+}
+.divider-flourish::before,
+.divider-flourish::after {
+  content: "";
+  height: 1px;
+  width: 4rem;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-cream-line) 45%,
+    var(--color-cream-line) 55%,
+    transparent
+  );
+}
+
+/* hero image in a patisserie arch */
+.arch-frame {
+  border-radius: 999px 999px 1rem 1rem;
+  overflow: hidden;
+  border: 1px solid var(--color-cream-line);
+  box-shadow:
+    0 1px 2px rgb(46 32 22 / 0.05),
+    0 16px 40px -18px rgb(46 32 22 / 0.22);
+}
+
+/* thin double keyline frame used on cards */
+.keyline {
+  position: relative;
+}
+.keyline::after {
+  content: "";
+  position: absolute;
+  inset: 0.5rem;
+  border: 1px solid var(--color-cream-line);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
 .price-tag {
   display: inline-flex;
   align-items: center;
@@ -36,6 +103,24 @@ body {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+/* soft page-section entrance */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.rise-in {
+  animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.rise-in-late {
+  animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
 }
 
 @media (prefers-reduced-motion: reduce) {

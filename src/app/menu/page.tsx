@@ -22,10 +22,11 @@ export default async function MenuPage() {
   if (!hasItems) {
     return (
       <div className="mx-auto flex max-w-6xl flex-col items-center px-6 py-24 text-center">
-        <p className="font-display text-3xl font-semibold text-cocoa">
+        <p className="eyebrow justify-center">The menu</p>
+        <p className="mt-5 font-display text-3xl font-semibold text-cocoa">
           Nothing on the menu yet
         </p>
-        <p className="mt-2 text-cocoa/70">
+        <p className="mt-3 text-cocoa/70">
           Check back soon — fresh bakes are on the way.
         </p>
       </div>
@@ -50,16 +51,19 @@ export default async function MenuPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
-      <header className="mb-12 text-center">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-caramel">
-          Freshly baked
-        </p>
-        <h1 className="font-display mt-2 text-4xl font-semibold text-cocoa sm:text-5xl">
+      <header className="text-center">
+        <p className="eyebrow justify-center">Freshly baked</p>
+        <h1 className="mt-4 font-display text-4xl font-semibold tracking-tight text-cocoa sm:text-5xl">
           The Menu
         </h1>
+        <p className="divider-flourish mt-5 font-display text-sm italic text-caramel/80">
+          baked to order
+        </p>
       </header>
 
-      <MenuFilter categories={visibleCategories} />
+      <div className="mt-12">
+        <MenuFilter categories={visibleCategories} />
+      </div>
     </div>
   );
 }

@@ -92,10 +92,10 @@ function FilterChip({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] transition-colors ${
+      className={`rounded-full border px-4 py-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.14em] transition-all ${
         active
-          ? "border-cocoa bg-cocoa text-paper"
-          : "border-cream-line bg-white text-cocoa/70 hover:border-caramel hover:text-caramel"
+          ? "border-cocoa bg-cocoa text-paper shadow-sm"
+          : "border-cream-line bg-white text-cocoa/60 hover:border-caramel hover:text-caramel"
       }`}
     >
       {label}
