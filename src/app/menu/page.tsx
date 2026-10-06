@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import ProductCard from "@/components/ProductCard";
+import MenuFilter from "@/components/MenuFilter";
 
 export const metadata = {
   title: "Menu — Bymamito",
@@ -32,6 +32,22 @@ export default async function MenuPage() {
     );
   }
 
+  const visibleCategories = categories
+    .filter((c) => c.products.length > 0)
+    .map((c) => ({
+      id: c.id,
+      name: c.name,
+      slug: c.slug,
+      products: c.products.map((p) => ({
+        id: p.id,
+        name: p.name,
+        description: p.description,
+        priceCents: p.priceCents,
+        imageUrl: p.imageUrl,
+        available: p.available,
+      })),
+    }));
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
       <header className="mb-12 text-center">
@@ -43,29 +59,7 @@ export default async function MenuPage() {
         </h1>
       </header>
 
-      <div className="flex flex-col gap-16">
-        {categories
-          .filter((c) => c.products.length > 0)
-          .map((category) => (
-            <section key={category.id}>
-              <div className="mb-6 flex items-baseline gap-3">
-                <h2 className="font-display text-2xl font-semibold text-cocoa">
-                  {category.name}
-                </h2>
-                <span className="text-xs font-semibold uppercase tracking-[0.15em] text-cocoa/40">
-                  {category.products.length}{" "}
-                  {category.products.length === 1 ? "item" : "items"}
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {category.products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            </section>
-          ))}
-      </div>
+      <MenuFilter categories={visibleCategories} />
     </div>
   );
 }
