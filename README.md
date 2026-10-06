@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bymamito 🍰
 
-## Getting Started
+A classy single-app website for **Bymamito**, a homemade bakery in Wakaf Siku,
+Kota Bharu. Customers browse the menu and order entirely through WhatsApp; the
+owner manages all content through a password-protected admin.
 
-First, run the development server:
+- **Public:** home, categorized menu with filter, cart → single WhatsApp order,
+  about, notes/news
+- **Admin (`/admin`):** CRUD for categories, products (with image upload),
+  posts, and site settings (WhatsApp number, hero image, about text, …)
+
+## Stack
+
+Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · Prisma ·
+Vercel Postgres (prod) / SQLite-style dev fallback · Vercel Blob (uploads)
+
+## Quick start
 
 ```bash
+npm install
+copy .env.example .env      # then fill in values
+npm run db:push             # create tables (needs DATABASE_URL)
+npm run db:seed             # seed the real menu
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Log in at `/admin` with `ADMIN_PASSWORD` from `.env`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Documentation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| File | What it is |
+|---|---|
+| [`setup.md`](setup.md) | Dev environment, install/run/build commands |
+| [`DEPLOY.md`](DEPLOY.md) | Hosting on Vercel (Postgres + Blob), step by step |
+| [`PRD.md`](PRD.md) | Purpose, users, goals, success criteria |
+| [`Architecture.md`](Architecture.md) | Components, data flow, project structure |
+| [`design.md`](design.md) | Visual identity — colors, fonts, motifs |
+| [`Phases.md`](Phases.md) | Roadmap + implementation checklist |
+| [`memory.md`](memory.md) | Persistent decisions & gotchas (read before changes) |
+| [`agents.md`](agents.md) | Conventions for AI agents working on this repo |
+| [`skills.md`](skills.md) | Which skills to invoke for which task |
 
-## Learn More
+Spec & implementation plan live under `docs/superpowers/`.
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Command | What it does |
+|---|---|
+| `npm run dev` | Dev server |
+| `npm run build` / `npm run start` | Production build / serve |
+| `npm run lint` | ESLint |
+| `npm run db:push` | Apply the Prisma schema to the database |
+| `npm run db:seed` | Seed categories, products, settings, ordering post |

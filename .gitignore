@@ -24,18 +24,25 @@
 .DS_Store
 *.pem
 
-# debug
+# debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
-.env*
+.env
+.env*.local
 !.env.example
 
-# database
+# database (local sqlite from dev; production uses Vercel Postgres)
 prisma/dev.db
+prisma/dev.db-journal
+*.sqlite
+*.sqlite-journal
+
+# user-uploaded images (runtime data, not source; production uses Vercel Blob)
+public/uploads/
 
 # vercel
 .vercel
@@ -44,5 +51,15 @@ prisma/dev.db
 *.tsbuildinfo
 next-env.d.ts
 
+# superpowers SDD scratch workspace (per-plan briefs/reports/diffs)
+.superpowers/
+
 # source menu screenshots (raw material, not site assets)
 menu-images/
+
+# editors / OS
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+Thumbs.db
