@@ -65,6 +65,12 @@ export function SettingsForm({
 }) {
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState(false);
+  const [fontPackValue, setFontPackValue] = useState(
+    fontPack || FONT_PACKS[0].id,
+  );
+  const [logoFontValue, setLogoFontValue] = useState(
+    logoFont || LOGO_FONTS[0].id,
+  );
 
   return (
     <form
@@ -255,7 +261,8 @@ export function SettingsForm({
           <Field label="Font pack">
             <select
               name="font_pack"
-              defaultValue={fontPack}
+              value={fontPackValue}
+              onChange={(e) => setFontPackValue(e.target.value)}
               className={inputClass}
             >
               {FONT_PACKS.map((pack) => (
@@ -274,7 +281,8 @@ export function SettingsForm({
             <Field label="Logo font (wordmark, independent of the pack)">
               <select
                 name="logo_font"
-                defaultValue={logoFont}
+                value={logoFontValue}
+                onChange={(e) => setLogoFontValue(e.target.value)}
                 className={inputClass}
               >
                 {LOGO_FONTS.map((font) => (
