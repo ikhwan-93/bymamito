@@ -5,6 +5,7 @@ import { prisma } from "./prisma";
 
 const COOKIE_NAME = "admin_session";
 const SESSION_DURATION_SECONDS = 60 * 60 * 24;
+const SESSION_VERSION_KEY = "session_version";
 
 const sessionSecret = process.env.SESSION_SECRET;
 if (!sessionSecret || sessionSecret.length < 32) {
@@ -14,11 +15,27 @@ if (!sessionSecret || sessionSecret.length < 32) {
 const secret = new TextEncoder().encode(sessionSecret);
 
 export async function createSession(): Promise<string> {
-  return new SignJWT({ role: "admin" })
+  return new SignJWT({ role: "admin", ver: await getSessionVersion() })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime(`${SESSION_DURATION_SECONDS}s`)
     .sign(secret);
+}
+
+async function getSessionVersion(): Promise<number> {
+  const row = await prisma.setting.findUnique({
+    where: { key: SESSION_VERSION_KEY },
+  });
+  return row?.value ? parseInt(row.value, 10) || 0 : 0;
+}
+
+export async function bumpSessionVersion(): Promise<void> {
+  const current = await getSessionVersion();
+  await prisma.setting.upsert({
+    where: { key: SESSION_VERSION_KEY },
+    update: { value: String(current + 1) },
+    create: { key: SESSION_VERSION_KEY, value: String(current + 1) },
+  });
 }
 
 export async function getSession(): Promise<boolean> {
@@ -30,7 +47,10 @@ export async function getSession(): Promise<boolean> {
   if (!token) return false;
 
   try {
-    await jwtVerify(token, secret);
+    const { payload } = await jwtVerify(token, secret);
+    if (typeof payload.ver === "number") {
+      if (payload.ver !== (await getSessionVersion())) return false;
+    }
     return true;
   } catch {
     return false;

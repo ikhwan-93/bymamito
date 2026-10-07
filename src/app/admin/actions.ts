@@ -9,6 +9,7 @@ import {
   setSessionCookie,
   verifyAdminPassword,
   getSession,
+  bumpSessionVersion,
 } from "@/lib/auth";
 
 export async function loginAction(
@@ -73,6 +74,11 @@ export async function changePasswordAction(
     update: { value: hash },
     create: { key: "admin_password_hash", value: hash },
   });
+
+  await bumpSessionVersion();
+
+  const token = await createSession();
+  await setSessionCookie(token);
 
   return { success: true };
 }

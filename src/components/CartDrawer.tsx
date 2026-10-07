@@ -123,12 +123,12 @@ export default function CartDrawer({
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1">
                     <button
                       type="button"
                       onClick={() => setQty(item.id, item.qty - 1)}
                       aria-label={`Decrease quantity of ${item.name}`}
-                      className="flex h-7 w-7 items-center justify-center rounded-full border border-cream-line text-cocoa transition-colors hover:border-caramel hover:text-caramel"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-cream-line text-cocoa transition-colors hover:border-caramel hover:text-caramel"
                     >
                       −
                     </button>
@@ -139,7 +139,7 @@ export default function CartDrawer({
                       type="button"
                       onClick={() => setQty(item.id, item.qty + 1)}
                       aria-label={`Increase quantity of ${item.name}`}
-                      className="flex h-7 w-7 items-center justify-center rounded-full border border-cream-line text-cocoa transition-colors hover:border-caramel hover:text-caramel"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-cream-line text-cocoa transition-colors hover:border-caramel hover:text-caramel"
                     >
                       +
                     </button>
