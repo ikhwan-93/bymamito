@@ -4,7 +4,11 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import { CartProvider } from "@/components/CartProvider";
 import { getSettings } from "@/lib/settings";
-import { getFontPack, DEFAULT_FONT_PACK } from "@/lib/font-packs";
+import {
+  getFontPack,
+  DEFAULT_FONT_PACK,
+  ALL_FONT_CLASSES,
+} from "@/lib/font-packs";
 
 export const dynamic = "force-dynamic";
 
@@ -35,11 +39,17 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     colorVars[`--color-${name}`] = value || fallback;
   }
 
+  const themeVars: Record<string, string> = {
+    ...colorVars,
+    "--font-display": fontPack.displayVar,
+    "--font-body": fontPack.bodyVar,
+  };
+
   return (
     <html
       lang="en"
-      className={`${fontPack.displayClass} ${fontPack.bodyClass} h-full antialiased`}
-      style={colorVars}
+      className={`${ALL_FONT_CLASSES} h-full antialiased`}
+      style={themeVars}
     >
       <body className="flex min-h-full flex-col">
         <CartProvider>
