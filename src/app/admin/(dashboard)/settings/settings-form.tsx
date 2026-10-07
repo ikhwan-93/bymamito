@@ -30,6 +30,7 @@ export function SettingsForm({
   aboutText,
   instagramUrl,
   heroImage,
+  logoImage,
   footerBlurb,
   fontPack,
   colorPaper,
@@ -44,6 +45,7 @@ export function SettingsForm({
   aboutText: string;
   instagramUrl: string;
   heroImage: string;
+  logoImage: string;
   footerBlurb: string;
   fontPack: string;
   colorPaper: string;
@@ -105,6 +107,45 @@ export function SettingsForm({
                 <label className="flex items-center gap-2 text-xs text-cocoa/60">
                   <input type="checkbox" name="remove_hero_image" />
                   Remove image (revert to the monogram)
+                </label>
+              ) : null}
+            </div>
+          </div>
+        </Field>
+
+        <Field label="Site logo (top-left)">
+          <input type="hidden" name="logo_image" value={logoImage} />
+          <div className="flex items-start gap-4">
+            <div className="flex h-16 w-40 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-cream-line bg-rose/50">
+              {logoImage ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={logoImage}
+                  alt="Current logo"
+                  className="max-h-full max-w-full object-contain"
+                />
+              ) : (
+                <span className="font-display text-2xl font-semibold text-cocoa/30">
+                  B
+                </span>
+              )}
+            </div>
+            <div className="flex-1 space-y-2">
+              <input
+                name="logo_image_file"
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/gif"
+                className="block w-full text-sm text-cocoa/70 file:mr-3 file:rounded-lg file:border-0 file:bg-caramel file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-white hover:file:bg-caramel/90"
+              />
+              <p className="text-xs text-cocoa/50">
+                Replaces the &quot;Bymamito&quot; text in the top-left. PNG with
+                a transparent background works best. Leave empty to keep the
+                text logo.
+              </p>
+              {logoImage ? (
+                <label className="flex items-center gap-2 text-xs text-cocoa/60">
+                  <input type="checkbox" name="remove_logo_image" />
+                  Remove logo (revert to the text wordmark)
                 </label>
               ) : null}
             </div>

@@ -13,6 +13,7 @@ const SETTING_KEYS = [
   "about_text",
   "instagram_url",
   "hero_image",
+  "logo_image",
   "footer_blurb",
   "font_pack",
   "color_paper",
@@ -51,6 +52,7 @@ export async function saveSettings(formData: FormData): Promise<SettingsResult> 
     about_text: String(formData.get("about_text") ?? "").trim(),
     instagram_url: String(formData.get("instagram_url") ?? "").trim(),
     hero_image: String(formData.get("hero_image") ?? "").trim(),
+    logo_image: String(formData.get("logo_image") ?? "").trim(),
     footer_blurb: String(formData.get("footer_blurb") ?? "").trim(),
     font_pack: String(formData.get("font_pack") ?? "").trim(),
   };
@@ -70,6 +72,15 @@ export async function saveSettings(formData: FormData): Promise<SettingsResult> 
     entries.hero_image = result.imageUrl!;
   } else if (formData.get("remove_hero_image") === "on") {
     entries.hero_image = "";
+  }
+
+  const logoFile = formData.get("logo_image_file");
+  if (logoFile instanceof File && logoFile.size > 0) {
+    const result = await saveUploadedImage(logoFile);
+    if (result.error) return { error: result.error };
+    entries.logo_image = result.imageUrl!;
+  } else if (formData.get("remove_logo_image") === "on") {
+    entries.logo_image = "";
   }
 
   try {

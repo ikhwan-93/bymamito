@@ -19,6 +19,7 @@ export default async function SettingsPage() {
         aboutText={settings.about_text ?? ""}
         instagramUrl={settings.instagram_url ?? ""}
         heroImage={settings.hero_image ?? ""}
+        logoImage={settings.logo_image ?? ""}
         footerBlurb={settings.footer_blurb ?? ""}
         fontPack={settings.font_pack ?? ""}
         colorPaper={settings.color_paper ?? ""}

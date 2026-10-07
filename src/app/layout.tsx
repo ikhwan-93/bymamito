@@ -53,7 +53,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col">
         <CartProvider>
-          <SiteHeader whatsappNumber={whatsappNumber} />
+          <SiteHeader
+            whatsappNumber={whatsappNumber}
+            logoImage={settings.logo_image || undefined}
+          />
           <main className="flex-1">{children}</main>
           <SiteFooter />
         </CartProvider>
