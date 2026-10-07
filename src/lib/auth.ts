@@ -1,5 +1,7 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import bcrypt from "bcryptjs";
+import { prisma } from "./prisma";
 
 const COOKIE_NAME = "admin_session";
 const SESSION_DURATION_SECONDS = 60 * 60 * 24;
@@ -47,6 +49,18 @@ export async function destroySession(): Promise<void> {
 }
 
 export async function verifyAdminPassword(pw: string): Promise<boolean> {
+  const stored = await prisma.setting.findUnique({
+    where: { key: "admin_password_hash" },
+  });
+
+  if (stored?.value) {
+    try {
+      return await bcrypt.compare(pw, stored.value);
+    } catch {
+      return false;
+    }
+  }
+
   const expected = process.env.ADMIN_PASSWORD;
   if (!expected) return false;
   return timingSafeEqual(pw, expected);

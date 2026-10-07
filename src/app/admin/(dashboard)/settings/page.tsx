@@ -1,5 +1,6 @@
 import { getSettings } from "@/lib/settings";
 import { SettingsForm } from "./settings-form";
+import { ChangePasswordForm } from "./change-password-form";
 
 export default async function SettingsPage() {
   const settings = await getSettings();
@@ -34,6 +35,18 @@ export default async function SettingsPage() {
         colorButter={settings.color_butter ?? ""}
         colorCreamLine={settings.color_cream_line ?? ""}
       />
+
+      <div className="mt-8 max-w-2xl rounded-2xl border border-cream-line bg-white p-6">
+        <h2 className="font-display text-lg font-semibold text-cocoa">
+          Change password
+        </h2>
+        <p className="mt-1 text-sm text-cocoa/60">
+          Update the admin password. You&apos;ll need your current password.
+        </p>
+        <div className="mt-4">
+          <ChangePasswordForm />
+        </div>
+      </div>
     </div>
   );
 }
