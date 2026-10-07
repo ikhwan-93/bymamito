@@ -2,8 +2,9 @@ import { getSettings } from "@/lib/settings";
 
 export default async function AboutPage() {
   const settings = await getSettings();
-  const aboutText = settings.about_text ?? "";
-  const businessHours = settings.business_hours ?? "";
+  const aboutTitle = settings.about_title ?? "";
+  const aboutBody = settings.about_body ?? "";
+  const aboutHours = settings.about_hours ?? "";
   const instagramUrl = settings.instagram_url ?? "";
 
   return (
@@ -11,7 +12,11 @@ export default async function AboutPage() {
       <header className="text-center">
         <p className="eyebrow justify-center">About Bymamito</p>
         <h1 className="mt-5 font-display text-4xl font-semibold leading-tight tracking-tight text-cocoa md:text-5xl">
-          Baked at home, <em className="text-caramel">shared with you</em>.
+          {aboutTitle || (
+            <>
+              Baked at home, <em className="text-caramel">shared with you</em>.
+            </>
+          )}
         </h1>
         <p className="divider-flourish mt-6 font-display text-sm italic text-caramel/80">
           our story
@@ -19,9 +24,9 @@ export default async function AboutPage() {
       </header>
 
       <div className="mt-12 space-y-6 text-lg leading-relaxed text-cocoa/80">
-        {aboutText ? (
+        {aboutBody ? (
           <p className="first-letter:font-display first-letter:text-5xl first-letter:font-semibold first-letter:text-caramel first-letter:mr-2 first-letter:float-left first-letter:leading-[0.9]">
-            {aboutText}
+            {aboutBody}
           </p>
         ) : (
           <p>
@@ -38,7 +43,7 @@ export default async function AboutPage() {
             Pre-orders &amp; hours
           </p>
           <p className="mt-3 leading-relaxed text-cocoa/70">
-            {businessHours || "Open daily, 9am - 6pm"}
+            {aboutHours || "Open daily, 9am - 6pm"}
           </p>
         </div>
 

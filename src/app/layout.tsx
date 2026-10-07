@@ -6,7 +6,9 @@ import { CartProvider } from "@/components/CartProvider";
 import { getSettings } from "@/lib/settings";
 import {
   getFontPack,
+  getLogoFont,
   DEFAULT_FONT_PACK,
+  DEFAULT_LOGO_FONT,
   ALL_FONT_CLASSES,
 } from "@/lib/font-packs";
 
@@ -31,6 +33,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const whatsappNumber = settings.whatsapp_number ?? "";
 
   const fontPack = getFontPack(settings.font_pack ?? DEFAULT_FONT_PACK);
+  const logoFont = getLogoFont(settings.logo_font ?? DEFAULT_LOGO_FONT);
 
   const colorVars: Record<string, string> = {};
   for (const [name, fallback] of Object.entries(DEFAULT_COLORS)) {
@@ -43,6 +46,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     ...colorVars,
     "--font-display": fontPack.displayVar,
     "--font-body": fontPack.bodyVar,
+    "--font-logo": logoFont.varRef,
   };
 
   return (

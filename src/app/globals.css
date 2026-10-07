@@ -22,6 +22,10 @@ body {
   font-family: var(--font-display), ui-serif, Georgia, serif;
 }
 
+.font-logo {
+  font-family: var(--font-logo), var(--font-display), ui-serif, Georgia, serif;
+}
+
 /* ---- shared ornaments ---- */
 
 /* small-caps eyebrow flanked by hairlines: ——— LABEL ——— */

@@ -20,7 +20,7 @@ export default function SiteHeader({
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-6">
         <Link
           href="/"
-          className="font-display text-[1.35rem] font-semibold tracking-tight text-cocoa"
+          className="font-logo text-[1.35rem] font-semibold tracking-tight text-cocoa"
         >
           {logoImage ? (
             // eslint-disable-next-line @next/next/no-img-element

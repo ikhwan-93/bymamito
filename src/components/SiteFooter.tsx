@@ -14,7 +14,7 @@ export default async function SiteFooter() {
       <div className="mx-auto max-w-6xl px-6 py-14">
         <div className="grid gap-10 text-center md:grid-cols-3 md:text-left">
           <div>
-            <p className="font-display text-2xl font-semibold">
+            <p className="font-logo text-2xl font-semibold">
               <span className="italic">B</span>ymamito
             </p>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-paper/60">

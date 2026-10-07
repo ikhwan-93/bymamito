@@ -408,6 +408,56 @@ export function getFontPack(id: string | undefined | null): FontPack {
   return FONT_PACKS.find((p) => p.id === id) ?? FONT_PACKS[0];
 }
 
+export type LogoFont = {
+  id: string;
+  name: string;
+  variable: string;
+  varRef: string;
+};
+
+// Single fonts available for the site logo wordmark.
+export const LOGO_FONTS: LogoFont[] = [
+  { id: "fraunces", name: "Fraunces", variable: fraunces.variable, varRef: "var(--font-fraunces)" },
+  { id: "playfair", name: "Playfair Display", variable: playfair.variable, varRef: "var(--font-playfair)" },
+  { id: "lora", name: "Lora", variable: lora.variable, varRef: "var(--font-lora)" },
+  { id: "cormorant", name: "Cormorant Garamond", variable: cormorant.variable, varRef: "var(--font-cormorant)" },
+  { id: "dm-serif", name: "DM Serif Display", variable: dmSerif.variable, varRef: "var(--font-dm-serif)" },
+  { id: "source-serif", name: "Source Serif 4", variable: sourceSerif.variable, varRef: "var(--font-source-serif)" },
+  { id: "baskervville", name: "Baskervville", variable: baskervville.variable, varRef: "var(--font-baskervville)" },
+  { id: "libre-baskerville", name: "Libre Baskerville", variable: libreBaskerville.variable, varRef: "var(--font-libre-baskerville)" },
+  { id: "crimson-pro", name: "Crimson Pro", variable: crimsonPro.variable, varRef: "var(--font-crimson-pro)" },
+  { id: "bodoni-moda", name: "Bodoni Moda", variable: bodoniModa.variable, varRef: "var(--font-bodoni-moda)" },
+  { id: "eb-garamond", name: "EB Garamond", variable: ebGaramond.variable, varRef: "var(--font-eb-garamond)" },
+  { id: "marcellus", name: "Marcellus", variable: marcellus.variable, varRef: "var(--font-marcellus)" },
+  { id: "prata", name: "Prata", variable: prata.variable, varRef: "var(--font-prata)" },
+  { id: "italiana", name: "Italiana", variable: italiana.variable, varRef: "var(--font-italiana)" },
+  { id: "abril-fatface", name: "Abril Fatface", variable: abrilFatface.variable, varRef: "var(--font-abril-fatface)" },
+  { id: "gloock", name: "Gloock", variable: gloock.variable, varRef: "var(--font-gloock)" },
+  { id: "young-serif", name: "Young Serif", variable: youngSerif.variable, varRef: "var(--font-young-serif)" },
+  { id: "newsreader", name: "Newsreader", variable: newsreader.variable, varRef: "var(--font-newsreader)" },
+  { id: "vollkorn", name: "Vollkorn", variable: vollkorn.variable, varRef: "var(--font-vollkorn)" },
+  { id: "spectral", name: "Spectral", variable: spectral.variable, varRef: "var(--font-spectral)" },
+  { id: "yeseva-one", name: "Yeseva One", variable: yesevaOne.variable, varRef: "var(--font-yeseva-one)" },
+  { id: "inter", name: "Inter", variable: inter.variable, varRef: "var(--font-inter)" },
+  { id: "nunito", name: "Nunito", variable: nunito.variable, varRef: "var(--font-nunito)" },
+  { id: "quicksand", name: "Quicksand", variable: quicksand.variable, varRef: "var(--font-quicksand)" },
+  { id: "poppins", name: "Poppins", variable: poppins.variable, varRef: "var(--font-poppins)" },
+  { id: "work-sans", name: "Work Sans", variable: workSans.variable, varRef: "var(--font-work-sans)" },
+  { id: "karla", name: "Karla", variable: karla.variable, varRef: "var(--font-karla)" },
+  { id: "mulish", name: "Mulish", variable: mulish.variable, varRef: "var(--font-mulish)" },
+  { id: "manrope", name: "Manrope", variable: manrope.variable, varRef: "var(--font-manrope)" },
+  { id: "outfit", name: "Outfit", variable: outfit.variable, varRef: "var(--font-outfit)" },
+  { id: "figtree", name: "Figtree", variable: figtree.variable, varRef: "var(--font-figtree)" },
+  { id: "sora", name: "Sora", variable: sora.variable, varRef: "var(--font-sora)" },
+  { id: "space-grotesk", name: "Space Grotesk", variable: spaceGrotesk.variable, varRef: "var(--font-space-grotesk)" },
+];
+
+export const DEFAULT_LOGO_FONT = "fraunces";
+
+export function getLogoFont(id: string | undefined | null): LogoFont {
+  return LOGO_FONTS.find((f) => f.id === id) ?? LOGO_FONTS[0];
+}
+
 const ALL_FONT_INSTANCES = [
   fraunces,
   inter,

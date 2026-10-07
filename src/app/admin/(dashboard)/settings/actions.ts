@@ -11,11 +11,15 @@ const SETTING_KEYS = [
   "whatsapp_number",
   "business_hours",
   "about_text",
+  "about_title",
+  "about_body",
+  "about_hours",
   "instagram_url",
   "hero_image",
   "logo_image",
   "footer_blurb",
   "font_pack",
+  "logo_font",
   "color_paper",
   "color_cocoa",
   "color_caramel",
@@ -50,11 +54,15 @@ export async function saveSettings(formData: FormData): Promise<SettingsResult> 
     whatsapp_number: whatsappNumber,
     business_hours: String(formData.get("business_hours") ?? "").trim(),
     about_text: String(formData.get("about_text") ?? "").trim(),
+    about_title: String(formData.get("about_title") ?? "").trim(),
+    about_body: String(formData.get("about_body") ?? "").trim(),
+    about_hours: String(formData.get("about_hours") ?? "").trim(),
     instagram_url: String(formData.get("instagram_url") ?? "").trim(),
     hero_image: String(formData.get("hero_image") ?? "").trim(),
     logo_image: String(formData.get("logo_image") ?? "").trim(),
     footer_blurb: String(formData.get("footer_blurb") ?? "").trim(),
     font_pack: String(formData.get("font_pack") ?? "").trim(),
+    logo_font: String(formData.get("logo_font") ?? "").trim(),
   };
 
   for (const key of COLOR_KEYS) {
@@ -100,8 +108,7 @@ export async function saveSettings(formData: FormData): Promise<SettingsResult> 
   revalidatePath("/about");
   revalidatePath("/menu");
   revalidatePath("/admin/settings");
-  return {};
-}
+  return {};}
 
 function normalizeWhatsApp(value: string): string {
   return value.replace(/\D/g, "");

@@ -17,11 +17,15 @@ export default async function SettingsPage() {
         whatsappNumber={settings.whatsapp_number ?? ""}
         businessHours={settings.business_hours ?? ""}
         aboutText={settings.about_text ?? ""}
+        aboutTitle={settings.about_title ?? ""}
+        aboutBody={settings.about_body ?? ""}
+        aboutHours={settings.about_hours ?? ""}
         instagramUrl={settings.instagram_url ?? ""}
         heroImage={settings.hero_image ?? ""}
         logoImage={settings.logo_image ?? ""}
         footerBlurb={settings.footer_blurb ?? ""}
         fontPack={settings.font_pack ?? ""}
+        logoFont={settings.logo_font ?? ""}
         colorPaper={settings.color_paper ?? ""}
         colorCocoa={settings.color_cocoa ?? ""}
         colorCaramel={settings.color_caramel ?? ""}

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { saveSettings } from "./actions";
-import { FONT_PACKS } from "@/lib/font-packs";
+import { FONT_PACKS, LOGO_FONTS } from "@/lib/font-packs";
 
 const inputClass =
   "w-full rounded-lg border border-cream-line bg-paper px-3 py-2 text-sm text-cocoa outline-none transition focus:border-caramel focus:ring-2 focus:ring-caramel/20";
@@ -28,11 +28,15 @@ export function SettingsForm({
   whatsappNumber,
   businessHours,
   aboutText,
+  aboutTitle,
+  aboutBody,
+  aboutHours,
   instagramUrl,
   heroImage,
   logoImage,
   footerBlurb,
   fontPack,
+  logoFont,
   colorPaper,
   colorCocoa,
   colorCaramel,
@@ -43,11 +47,15 @@ export function SettingsForm({
   whatsappNumber: string;
   businessHours: string;
   aboutText: string;
+  aboutTitle: string;
+  aboutBody: string;
+  aboutHours: string;
   instagramUrl: string;
   heroImage: string;
   logoImage: string;
   footerBlurb: string;
   fontPack: string;
+  logoFont: string;
   colorPaper: string;
   colorCocoa: string;
   colorCaramel: string;
@@ -163,7 +171,7 @@ export function SettingsForm({
           />
         </Field>
 
-        <Field label="Business hours (footer 'Visit & order' + about page)">
+        <Field label="Business hours (footer 'Visit & order')">
           <input
             name="business_hours"
             defaultValue={businessHours}
@@ -180,7 +188,7 @@ export function SettingsForm({
           />
         </Field>
 
-        <Field label="About text">
+        <Field label="Homepage teaser (about section on home page)">
           <textarea
             name="about_text"
             defaultValue={aboutText}
@@ -197,6 +205,43 @@ export function SettingsForm({
             className={inputClass}
           />
         </Field>
+      </div>
+
+      <div className="border-t border-cream-line pt-6">
+        <h2 className="font-display text-lg font-semibold text-cocoa">
+          About page
+        </h2>
+        <p className="mt-1 text-sm text-cocoa/60">
+          Text shown only on the About page.
+        </p>
+        <div className="mt-4 grid grid-cols-1 gap-4">
+          <Field label="About page heading">
+            <input
+              name="about_title"
+              defaultValue={aboutTitle}
+              placeholder="Baked at home, shared with you."
+              className={inputClass}
+            />
+          </Field>
+
+          <Field label="About page body">
+            <textarea
+              name="about_body"
+              defaultValue={aboutBody}
+              rows={5}
+              className={inputClass}
+            />
+          </Field>
+
+          <Field label="Pre-orders &amp; hours (About page card)">
+            <input
+              name="about_hours"
+              defaultValue={aboutHours}
+              placeholder="Open daily, 9am - 6pm"
+              className={inputClass}
+            />
+          </Field>
+        </div>
       </div>
 
       <div className="border-t border-cream-line pt-6">
@@ -224,6 +269,26 @@ export function SettingsForm({
               ))}
             </select>
           </Field>
+
+          <div className="mt-4">
+            <Field label="Logo font (wordmark, independent of the pack)">
+              <select
+                name="logo_font"
+                defaultValue={logoFont}
+                className={inputClass}
+              >
+                {LOGO_FONTS.map((font) => (
+                  <option
+                    key={font.id}
+                    value={font.id}
+                    style={{ fontFamily: font.varRef }}
+                  >
+                    {font.name}
+                  </option>
+                ))}
+              </select>
+            </Field>
+          </div>
         </div>
       </div>
 

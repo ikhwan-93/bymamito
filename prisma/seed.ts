@@ -263,6 +263,19 @@ async function main() {
       "about_text",
       "Bymamito is a homemade bakery in Wakaf Siku, Kota Bharu — crunchy kek batik, chewy fudge brownies, congo bars and caramel pudding cakes, baked to order.",
     ],
+    [
+      "footer_blurb",
+      "Homemade bakes from our kitchen in Wakaf Siku, Kota Bharu — pre-ordered, baked fresh, and boxed by hand.",
+    ],
+    ["about_title", "Baked at home, shared with you"],
+    [
+      "about_body",
+      "Bymamito began in a home kitchen in Wakaf Siku, Kota Bharu, with one simple idea: bake the things we love, the way we love to eat them. Every kek batik, fudge brownie, congo bar and caramel pudding cake is mixed, shaped and boxed by hand — in small batches, and only after you order. No shortcuts, no mass production, just honest bakes made with the good butter and plenty of patience.",
+    ],
+    [
+      "about_hours",
+      "Pre-order basis. Order at least 2 days ahead; cut-off is 10am for next-day pickup or delivery.",
+    ],
     ["instagram_url", "https://www.instagram.com/bymamito/"],
   ];
 
