@@ -163,47 +163,26 @@ export function SettingsForm({
           Typography
         </h2>
         <p className="mt-1 text-sm text-cocoa/60">
-          Pick a font pairing — each sample is shown in its own typeface.
+          Pick a font pairing for headings and body text across the site.
         </p>
-        <div className="mt-4 space-y-2">
-          {FONT_PACKS.map((pack) => {
-            const selected = pack.id === fontPack;
-            return (
-              <label
-                key={pack.id}
-                className={`flex cursor-pointer items-center gap-4 rounded-xl border px-4 py-3 transition ${
-                  selected
-                    ? "border-caramel bg-butter/50 ring-2 ring-caramel/20"
-                    : "border-cream-line bg-paper hover:border-caramel/50"
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="font_pack"
+        <div className="mt-4">
+          <Field label="Font pack">
+            <select
+              name="font_pack"
+              defaultValue={fontPack}
+              className={inputClass}
+            >
+              {FONT_PACKS.map((pack) => (
+                <option
+                  key={pack.id}
                   value={pack.id}
-                  defaultChecked={selected}
-                  className="sr-only"
-                />
-                <span className="flex min-w-0 flex-1 flex-col gap-1">
-                  <span
-                    className="truncate text-lg leading-tight text-cocoa"
-                    style={{ fontFamily: pack.displayVar }}
-                  >
-                    {pack.display}
-                  </span>
-                  <span
-                    className="truncate text-sm text-cocoa/70"
-                    style={{ fontFamily: pack.bodyVar }}
-                  >
-                    {pack.body} — {pack.description}
-                  </span>
-                </span>
-                {selected ? (
-                  <span className="shrink-0 font-display text-caramel">✓</span>
-                ) : null}
-              </label>
-            );
-          })}
+                  style={{ fontFamily: pack.bodyVar }}
+                >
+                  {pack.label} — {pack.description}
+                </option>
+              ))}
+            </select>
+          </Field>
         </div>
       </div>
 
