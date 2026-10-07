@@ -122,7 +122,7 @@ export function SettingsForm({
           />
         </Field>
 
-        <Field label="Business hours">
+        <Field label="Business hours (footer 'Visit & order' + about page)">
           <input
             name="business_hours"
             defaultValue={businessHours}
@@ -148,7 +148,7 @@ export function SettingsForm({
           />
         </Field>
 
-        <Field label="Footer blurb">
+        <Field label="Footer blurb (brand description in footer)">
           <textarea
             name="footer_blurb"
             defaultValue={footerBlurb}
