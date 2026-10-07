@@ -14,6 +14,7 @@ export default async function SettingsPage() {
       </p>
 
       <SettingsForm
+        key={`${settings.font_pack ?? ""}-${settings.logo_font ?? ""}`}
         whatsappNumber={settings.whatsapp_number ?? ""}
         businessHours={settings.business_hours ?? ""}
         aboutText={settings.about_text ?? ""}

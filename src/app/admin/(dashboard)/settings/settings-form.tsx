@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { saveSettings } from "./actions";
 import { FONT_PACKS, LOGO_FONTS } from "@/lib/font-packs";
 
@@ -65,6 +66,7 @@ export function SettingsForm({
 }) {
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState(false);
+  const router = useRouter();
   const [fontPackValue, setFontPackValue] = useState(
     fontPack || FONT_PACKS[0].id,
   );
@@ -82,6 +84,7 @@ export function SettingsForm({
           setError(result.error);
         } else {
           setSuccess(true);
+          router.refresh();
         }
       }}
       className="mt-8 max-w-2xl space-y-6 rounded-2xl border border-cream-line bg-white p-6"
