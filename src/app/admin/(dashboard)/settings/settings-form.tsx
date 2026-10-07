@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { saveSettings } from "./actions";
+import { FONT_PACKS } from "@/lib/font-packs";
 
 const inputClass =
   "w-full rounded-lg border border-cream-line bg-paper px-3 py-2 text-sm text-cocoa outline-none transition focus:border-caramel focus:ring-2 focus:ring-caramel/20";
@@ -29,12 +30,28 @@ export function SettingsForm({
   aboutText,
   instagramUrl,
   heroImage,
+  footerBlurb,
+  fontPack,
+  colorPaper,
+  colorCocoa,
+  colorCaramel,
+  colorRose,
+  colorButter,
+  colorCreamLine,
 }: {
   whatsappNumber: string;
   businessHours: string;
   aboutText: string;
   instagramUrl: string;
   heroImage: string;
+  footerBlurb: string;
+  fontPack: string;
+  colorPaper: string;
+  colorCocoa: string;
+  colorCaramel: string;
+  colorRose: string;
+  colorButter: string;
+  colorCreamLine: string;
 }) {
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState(false);
@@ -130,6 +147,56 @@ export function SettingsForm({
             className={inputClass}
           />
         </Field>
+
+        <Field label="Footer blurb">
+          <textarea
+            name="footer_blurb"
+            defaultValue={footerBlurb}
+            rows={3}
+            className={inputClass}
+          />
+        </Field>
+      </div>
+
+      <div className="border-t border-cream-line pt-6">
+        <h2 className="font-display text-lg font-semibold text-cocoa">
+          Typography
+        </h2>
+        <p className="mt-1 text-sm text-cocoa/60">
+          Pick a font pairing for headings and body text across the site.
+        </p>
+        <div className="mt-4">
+          <Field label="Font pack">
+            <select
+              name="font_pack"
+              defaultValue={fontPack}
+              className={inputClass}
+            >
+              {FONT_PACKS.map((pack) => (
+                <option key={pack.id} value={pack.id}>
+                  {pack.label} — {pack.description}
+                </option>
+              ))}
+            </select>
+          </Field>
+        </div>
+      </div>
+
+      <div className="border-t border-cream-line pt-6">
+        <h2 className="font-display text-lg font-semibold text-cocoa">
+          Layout colours
+        </h2>
+        <p className="mt-1 text-sm text-cocoa/60">
+          Leave a field empty to keep the default colour.
+        </p>
+        <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <ColorField label="Paper (background)" name="color_paper" value={colorPaper} />
+          <ColorField label="Cocoa (text)" name="color_cocoa" value={colorCocoa} />
+          <ColorField label="Caramel (accent)" name="color_caramel" value={colorCaramel} />
+          <ColorField label="Rose (surface)" name="color_rose" value={colorRose} />
+          <ColorField label="Butter (highlight)" name="color_butter" value={colorButter} />
+          <ColorField label="Cream line (border)" name="color_cream_line" value={colorCreamLine} />
+        </div>
       </div>
 
       <div className="flex items-center gap-4">
@@ -150,5 +217,40 @@ export function SettingsForm({
         ) : null}
       </div>
     </form>
+  );
+}
+
+function ColorField({
+  label,
+  name,
+  value,
+}: {
+  label: string;
+  name: string;
+  value: string;
+}) {
+  const [text, setText] = useState(value);
+  return (
+    <label className="block">
+      <span className="mb-1.5 block text-xs font-medium text-cocoa/70">
+        {label}
+      </span>
+      <span className="flex items-center gap-2">
+        <input
+          type="color"
+          value={/^#[0-9a-fA-F]{6}$/.test(text) ? text : "#000000"}
+          onChange={(e) => setText(e.target.value)}
+          className="h-9 w-11 shrink-0 cursor-pointer rounded border border-cream-line bg-paper p-0.5"
+        />
+        <input
+          type="text"
+          name={name}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="#000000"
+          className={inputClass}
+        />
+      </span>
+    </label>
   );
 }

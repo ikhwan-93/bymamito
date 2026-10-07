@@ -5,6 +5,9 @@ export default async function SiteFooter() {
   const settings = await getSettings();
   const instagramUrl = settings.instagram_url || "https://www.instagram.com/bymamito/";
   const hours = settings.business_hours || "Pre-order bakes, made fresh to order";
+  const blurb =
+    settings.footer_blurb ||
+    "Homemade bakes from our kitchen in Wakaf Siku, Kota Bharu — pre-ordered, baked fresh, and boxed by hand.";
 
   return (
     <footer className="bg-cocoa text-paper">
@@ -15,8 +18,7 @@ export default async function SiteFooter() {
               <span className="italic">B</span>ymamito
             </p>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-paper/60">
-              Homemade bakes from our kitchen in Wakaf Siku, Kota Bharu —
-              pre-ordered, baked fresh, and boxed by hand.
+              {blurb}
             </p>
           </div>
 

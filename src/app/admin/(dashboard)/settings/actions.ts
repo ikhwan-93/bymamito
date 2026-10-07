@@ -13,7 +13,26 @@ const SETTING_KEYS = [
   "about_text",
   "instagram_url",
   "hero_image",
+  "footer_blurb",
+  "font_pack",
+  "color_paper",
+  "color_cocoa",
+  "color_caramel",
+  "color_rose",
+  "color_butter",
+  "color_cream_line",
 ] as const;
+
+const COLOR_KEYS = [
+  "color_paper",
+  "color_cocoa",
+  "color_caramel",
+  "color_rose",
+  "color_butter",
+  "color_cream_line",
+] as const;
+
+const HEX_RE = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
 
 export async function saveSettings(formData: FormData): Promise<SettingsResult> {
   if (!(await getSession())) return { error: "Unauthorized." };
@@ -32,7 +51,17 @@ export async function saveSettings(formData: FormData): Promise<SettingsResult> 
     about_text: String(formData.get("about_text") ?? "").trim(),
     instagram_url: String(formData.get("instagram_url") ?? "").trim(),
     hero_image: String(formData.get("hero_image") ?? "").trim(),
+    footer_blurb: String(formData.get("footer_blurb") ?? "").trim(),
+    font_pack: String(formData.get("font_pack") ?? "").trim(),
   };
+
+  for (const key of COLOR_KEYS) {
+    const raw = String(formData.get(key) ?? "").trim();
+    if (raw && !HEX_RE.test(raw)) {
+      return { error: "Colours must be a hex value like #c4874b." };
+    }
+    entries[key] = raw;
+  }
 
   const heroFile = formData.get("hero_image_file");
   if (heroFile instanceof File && heroFile.size > 0) {

@@ -19,6 +19,14 @@ export default async function SettingsPage() {
         aboutText={settings.about_text ?? ""}
         instagramUrl={settings.instagram_url ?? ""}
         heroImage={settings.hero_image ?? ""}
+        footerBlurb={settings.footer_blurb ?? ""}
+        fontPack={settings.font_pack ?? ""}
+        colorPaper={settings.color_paper ?? ""}
+        colorCocoa={settings.color_cocoa ?? ""}
+        colorCaramel={settings.color_caramel ?? ""}
+        colorRose={settings.color_rose ?? ""}
+        colorButter={settings.color_butter ?? ""}
+        colorCreamLine={settings.color_cream_line ?? ""}
       />
     </div>
   );
