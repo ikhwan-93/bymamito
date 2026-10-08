@@ -60,6 +60,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <SiteHeader
             whatsappNumber={whatsappNumber}
             logoImage={settings.logo_image || undefined}
+            siteName={settings.site_name || "Bymamito"}
           />
           <main className="flex-1">{children}</main>
           <SiteFooter />

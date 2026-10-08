@@ -11,9 +11,11 @@ const NAV_LINKS = [
 export default function SiteHeader({
   whatsappNumber,
   logoImage,
+  siteName = "Bymamito",
 }: {
   whatsappNumber: string;
   logoImage?: string;
+  siteName?: string;
 }) {
   return (
     <header className="sticky top-0 z-50 border-b border-cream-line bg-paper/90 backdrop-blur">
@@ -26,12 +28,13 @@ export default function SiteHeader({
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={logoImage}
-              alt="Bymamito"
+              alt={siteName}
               className="h-10 w-auto object-contain"
             />
           ) : (
             <>
-              <span className="italic">B</span>ymamito
+              <span className="italic">{siteName[0]}</span>
+              {siteName.slice(1)}
             </>
           )}
         </Link>

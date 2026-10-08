@@ -35,6 +35,7 @@ export function SettingsForm({
   instagramUrl,
   heroImage,
   logoImage,
+  siteName,
   footerBlurb,
   fontPack,
   logoFont,
@@ -54,6 +55,7 @@ export function SettingsForm({
   instagramUrl: string;
   heroImage: string;
   logoImage: string;
+  siteName: string;
   footerBlurb: string;
   fontPack: string;
   logoFont: string;
@@ -167,6 +169,15 @@ export function SettingsForm({
               ) : null}
             </div>
           </div>
+        </Field>
+
+        <Field label="Site name (header &amp; footer)">
+          <input
+            name="site_name"
+            defaultValue={siteName}
+            placeholder="Bymamito"
+            className={inputClass}
+          />
         </Field>
 
         <Field label="WhatsApp number (digits only)">

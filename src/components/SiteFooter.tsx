@@ -8,6 +8,7 @@ export default async function SiteFooter() {
   const blurb =
     settings.footer_blurb ||
     "Homemade bakes from our kitchen in Wakaf Siku, Kota Bharu — pre-ordered, baked fresh, and boxed by hand.";
+  const siteName = settings.site_name || "Bymamito";
 
   return (
     <footer className="bg-cocoa text-paper">
@@ -15,7 +16,8 @@ export default async function SiteFooter() {
         <div className="grid gap-10 text-center md:grid-cols-3 md:text-left">
           <div>
             <p className="font-logo text-2xl font-semibold">
-              <span className="italic">B</span>ymamito
+              <span className="italic">{siteName[0]}</span>
+              {siteName.slice(1)}
             </p>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-paper/60">
               {blurb}
